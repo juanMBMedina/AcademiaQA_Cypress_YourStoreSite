@@ -8,7 +8,8 @@
   },
   "scripts": {
     "clean": "rm -rf cypress/screenshots/* cypress/videos/* cypress/reports/*",
-    "test": "npm run clean && npx cypress run"
+    "test": "npm run clean && npx cypress run",
+    "gui": "npx cypress open"
   },
   "dependencies": {
     "@faker-js/faker": "^9.6.0"

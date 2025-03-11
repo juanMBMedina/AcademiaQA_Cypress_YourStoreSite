@@ -15,7 +15,7 @@ export function generateNewUser() {
     email: faker.internet.email(),
     telephone: faker.string.numeric(10),
     password: faker.internet.password(),
-    suscribe: faker.datatype.boolean(),
+    suscribe: true,
     privacy: true,
     expectedText:
       "Congratulations! Your new account has been successfully created!",

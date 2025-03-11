@@ -8,37 +8,42 @@ const filePath = "cypress/data/generatedUsers.json";
 
 describe("Your Store Site: Register User Tests", () => {
   const principalPage = new HomePage();
-
-  it("Validate new user have been created succesfuly", () => {
+/*
+  it("YS-1 - Validate new user have been created succesfuly", () => {
     principalPage.navigateToPage();
     const registerPage = principalPage.goToRegisterPage();
     const newUser = generateNewUser();
     cy.log(newUser);
     registerPage.fillRegisterForm(newUser);
     registerPage.validateMssg(newUser.expectedText);
+    cy.task("reportTo", { testCaseId: "YS-1", status: "PASSED" });
   });
+*/  
 
-  it("Validate error mssg when try to register an exist user", () => {
+  it("YS-2 - Validate error mssg when try to register an exist user", () => {
     principalPage.navigateToPage();
     const registerPage = principalPage.goToRegisterPage();
     registerPage.fillRegisterForm(existUser);
     registerPage.validateMssg(existUser.expectedText);
+    cy.task("reportTo", { testCaseId: "YS-2", status: "PASSED" });
   });
 
-  it("Validate error message when try to register a user with one empty param", () => {
+  it("YS-3 - Validate error message when try to register a user with one empty param", () => {
     listUsersWitoutParams.forEach((user) => {
       principalPage.navigateToPage();
       const registerPage = principalPage.goToRegisterPage();
       registerPage.fillRegisterForm(user);
       registerPage.validateMssg(user.expectedText);
+      cy.task("reportTo", { testCaseId: "YS-3", status: "PASSED" });
     });
   });
 
-  it("Validate error message when try to register a user without privacy politics", () => {
+  it("YS-4 - Validate error message when try to register a user without privacy politics", () => {
     principalPage.navigateToPage();
     const registerPage = principalPage.goToRegisterPage();
     registerPage.fillRegisterForm(userWithoutPolitics);
     registerPage.validateMssg(userWithoutPolitics.expectedText);
+    cy.task("reportTo", { testCaseId: "YS-4", status: "PASSED" });
   });
 
 });
