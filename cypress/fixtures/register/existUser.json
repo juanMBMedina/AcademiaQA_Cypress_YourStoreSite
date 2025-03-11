@@ -1,0 +1,10 @@
+{
+  "name": "Jennings",
+  "lastName": "Lynch",
+  "email": "Royce_Stroman@gmail.com",
+  "telephone": "8147805173",
+  "password": "PQt9hsBxu4TZ5xJ",
+  "suscribe": true,
+  "privacy": true,
+  "expectedText": "Warning: E-Mail Address is already registered!"
+}

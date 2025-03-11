@@ -1,0 +1,52 @@
+[
+  {
+    "name": "",
+    "lastName": "Blanco",
+    "email": "correo123123@gmail.com",
+    "telephone": "123456789",
+    "password": "clave1",
+    "suscribe": true,
+    "privacy": true,
+    "expectedText": "First Name must be between 1 and 32 characters!"
+  },
+  {
+    "name": "Juan",
+    "lastName": "",
+    "email": "correo123123@gmail.com",
+    "telephone": "123456789",
+    "password": "clave1",
+    "suscribe": true,
+    "privacy": true,
+    "expectedText": "Last Name must be between 1 and 32 characters!"
+  },
+  {
+    "name": "Juan",
+    "lastName": "Blanco",
+    "email": "",
+    "telephone": "123456789",
+    "password": "clave1",
+    "suscribe": true,
+    "privacy": true,
+    "expectedText": "E-Mail Address does not appear to be valid!"
+  },
+  {
+    "name": "Juan",
+    "lastName": "Blanco",
+    "email": "correo123123@gmail.com",
+    "telephone": "",
+    "password": "clave1",
+    "suscribe": true,
+    "privacy": true,
+    "expectedText": "Telephone must be between 3 and 32 characters!"
+  },
+  {
+    "name": "Juan",
+    "lastName": "Blanco",
+    "email": "correo123123@gmail.com",
+    "telephone": "123456789",
+    "password": "",
+    "suscribe": true,
+    "privacy": true,
+    "expectedText": "Password must be between 4 and 20 characters!"
+  }
+]
