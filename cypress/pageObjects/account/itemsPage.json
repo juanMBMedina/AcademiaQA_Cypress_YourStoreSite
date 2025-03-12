@@ -1,0 +1,12 @@
+{
+  "sectionNavItems":[
+    {
+      "title": "Currency",
+      "elements": ["Euro", "Pound Sterling", "US Dollar"]
+    },
+    {
+      "title":"My Account",
+      "elements": ["My Account", "Order History","Transactions","Downloads","Logout"]
+    }
+  ]
+}

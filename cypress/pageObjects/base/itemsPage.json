@@ -1,0 +1,13 @@
+{
+  "singleNavItems": ["Wish List", "Shopping Cart", "Checkout"],
+  "sectionNavItems":[
+    {
+      "title": "Currency",
+      "elements": ["Euro", "Pound Sterling", "US Dollar"]
+    },
+    {
+      "title":"My Account",
+      "elements": ["Register", "Login"]
+    }
+  ]
+}

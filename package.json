@@ -7,7 +7,8 @@
     "mochawesome-report-generator": "^6.2.0"
   },
   "scripts": {
-    "clean": "rm -rf cypress/screenshots/* cypress/videos/* cypress/reports/*",
+    "clean-cache": "npx cypress cache clear",
+    "clean-file": "rm -rf cypress/screenshots/* cypress/videos/* cypress/reports/*",
     "test": "npm run clean && npx cypress run",
     "gui": "npx cypress open"
   },
