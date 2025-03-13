@@ -1,4 +1,5 @@
 import BasePageWithMenu from "../base/BasePageWithMenu";
+import LogoutPage from "../login/LogoutPage";
 import data from "./itemsPage.json";
 import { URLS } from "../../support/constants";
 
@@ -47,6 +48,12 @@ class AccountPage extends BasePageWithMenu {
     this.validateSections();
     this.validateRigthBar();
   }
+
+  performLogout() {
+      this.clickAccOptions();
+      this.getNavItem("My Account", "Logout").click();
+      return new LogoutPage();
+    }
 }
 
 export default AccountPage;

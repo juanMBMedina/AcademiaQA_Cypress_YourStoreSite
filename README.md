@@ -23,7 +23,7 @@ AcademiaQA_Cypress_YourStoreSite/
 │   │   │   ├── existUser.json
 │   │   │   ├── existUserWithoutPolitics.json
 │   │   │   ├── usersWithoutParam.json
-│   ├── pageObjects/
+│   ├── pages/
 │   │   ├── HomePage.js
 │   │   ├── RegisterPage.js
 │   ├── support/

@@ -1,4 +1,4 @@
-import HomePage from "../pageObjects/home/HomePage";
+import HomePage from "../pages/home/HomePage";
 import existUser from "../fixtures/register/existUser.json";
 import userWithoutPolitics from "../fixtures/register/existUserWithoutPolitics.json";
 import listUsersWitoutParams from "../fixtures/register/usersWithoutParam.json";
@@ -8,8 +8,8 @@ const filePath = "cypress/data/generatedUsers.json";
 
 describe("Your Store Site: Register User Tests", () => {
 
-  const principalPage = new HomePage();
-
+  var principalPage = new HomePage();
+  var registerPage;
   // Can you implement hooks -> before, after (All suite)
   //                            beforeEach, afterEach (each test case)
 
@@ -19,34 +19,32 @@ describe("Your Store Site: Register User Tests", () => {
     cy.window().then((win) => {
       win.sessionStorage.clear();
     });
+
+    principalPage.navigateToPage();
+    registerPage = principalPage.goToRegisterPage();
+    registerPage.validateFormIsVisible();
+
   });
   
 
   it("YS-1 - Validate new user have been created succesfuly", () => {
-    principalPage.navigateToPage();
-    const registerPage = principalPage.goToRegisterPage();
     const newUser = generateNewUser();
     cy.log(newUser);
-    registerPage.validateFormIsVisible();
     registerPage.fillRegisterForm(newUser);
     // Fails te page isn't going to success create user change http protocol !
-    registerPage.validateMssg(newUser.expectedText);
+    registerPage.validateMssgNewUser();
   });
 
   it("YS-2 - Validate error mssg when try to register an exist user", () => {
-    principalPage.navigateToPage();
-    const registerPage = principalPage.goToRegisterPage();
     registerPage.fillRegisterForm(existUser);
-    registerPage.validateMssg(existUser.expectedText);
+    registerPage.validateMssgUserExist();
     cy.task("reportTo", { testCaseId: "YS-2", status: "PASSED" });
   });
 
   it("YS-3 - Validate error message when try to register a user with one empty param", () => {
     listUsersWitoutParams.forEach((user) => {
-      principalPage.navigateToPage();
-      const registerPage = principalPage.goToRegisterPage();
       registerPage.fillRegisterForm(user);
-      registerPage.validateMssg(user.expectedText);
+      registerPage.validateMssgWithoutParam(user);
       cy.task("reportTo", { testCaseId: "YS-3", status: "PASSED" });
     });
   });
@@ -55,7 +53,7 @@ describe("Your Store Site: Register User Tests", () => {
     principalPage.navigateToPage();
     const registerPage = principalPage.goToRegisterPage();
     registerPage.fillRegisterForm(userWithoutPolitics);
-    registerPage.validateMssg(userWithoutPolitics.expectedText);
+    registerPage.validateMssgWithoutPrivacity();
     cy.task("reportTo", { testCaseId: "YS-4", status: "PASSED" });
   });
 

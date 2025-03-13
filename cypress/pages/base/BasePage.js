@@ -16,10 +16,12 @@ class BasePage {
   // 🔹 Getter para obtener los elementos predeterminados
   get defaultElements() {
     return {
-      navBar: () => cy.get("#top"),
-      itemNavBar: (text) => this.elements.navBar().contains(text),
-      subItemNavBar: (textParent, textChild) =>
-        this.elements.navBar().contains(textParent).parent().contains(textChild),
+      headerNav: () => cy.get("#top"),
+      itemHeaderNav: (text) => this.elements.headerNav().contains(text),
+      subItemHeaderBar: (textParent, textChild) =>
+        this.elements.headerNav().contains(textParent).parent().contains(textChild),
+      mssgInPage: (text) => cy.contains(text),
+      msgAlert: () => cy.get(".alert")
     };
   }
 
@@ -86,7 +88,7 @@ class BasePage {
         (item) => item.title === parentText
       );
       if (section && section.elements.includes(childText)) {
-        return this.elements.subItemNavBar(parentText, childText);
+        return this.elements.subItemHeaderBar(parentText, childText);
       }
     } else {
       // Buscar en `navBarSectionItems` y `navBarSingleItems`
@@ -94,10 +96,10 @@ class BasePage {
         (item) => item.title === parentText
       );
       if (section) {
-        return this.elements.itemNavBar(parentText);
+        return this.elements.itemHeaderNav(parentText);
       }
       if (this.navBarSingleItems.includes(parentText)) {
-        return this.elements.itemNavBar(parentText);
+        return this.elements.itemHeaderNav(parentText);
       }
     }
 
@@ -131,6 +133,10 @@ class BasePage {
 
   clickAccOptions() {
     this.getNavItem("My Account").click();
+  }
+
+  validateMssg(text){
+    this.elements.mssgInPage(text).should("be.visible");
   }
 }
 

@@ -16,10 +16,21 @@ export function generateNewUser() {
     telephone: faker.string.numeric(10),
     password: faker.internet.password(),
     suscribe: true,
-    privacity: true,
-    expectedText:
-      "Congratulations! Your new account has been successfully created!",
+    privacity: true
   };
   return user;
 }
 
+export function getEmptyFields(objeto) {
+  return Object.keys(objeto)
+      .filter(key => typeof objeto[key] === "string" && objeto[key] === "")
+      .map(key => key.toUpperCase());
+}
+
+export function cleanCookies(){
+  cy.clearCookies();
+  cy.clearLocalStorage();
+  cy.window().then((win) => {
+    win.sessionStorage.clear();
+  });
+}

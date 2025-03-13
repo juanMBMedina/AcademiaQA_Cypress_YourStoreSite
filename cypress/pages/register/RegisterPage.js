@@ -1,6 +1,6 @@
-import { writeText } from "../../support/utils";
+import { writeText, getEmptyFields } from "../../support/utils";
 import BasePageWithMenu from "../base/BasePageWithMenu";
-import { URLS } from "../../support/constants";
+import { MSSG, URLS } from "../../support/constants";
 
 class RegisterPage extends BasePageWithMenu {
   constructor() {
@@ -11,7 +11,6 @@ class RegisterPage extends BasePageWithMenu {
   get defaultElements() {
     return {
       ...super.defaultElements,
-      mssgLabel: (text) => cy.contains("div", text),
       inputName: () => cy.get("#input-firstname"),
       inputLastName: () => cy.get("#input-lastname"),
       inputEmail: () => cy.get("#input-email"),
@@ -55,9 +54,25 @@ class RegisterPage extends BasePageWithMenu {
     this.elements.submitButton().should("be.visible");
   }
 
-  validateMssg(text) {
-    this.elements.mssgLabel(text).should("be.visible");
+  validateMssgNewUser(){
+    this.validateMssg(MSSG.REGISTER_PAGE.SUCCES_REGISTER);
   }
+
+  validateMssgUserExist(){
+    this.validateMssg(MSSG.REGISTER_PAGE.USER_EXIST);
+  }
+
+  validateMssgWithoutPrivacity(){
+    this.validateMssg(MSSG.REGISTER_PAGE.WITHOUT_PRIVACITY);
+  }
+
+  validateMssgWithoutParam(user){
+    getEmptyFields(user).forEach(text =>{
+      this.validateMssg(MSSG.REGISTER_PAGE.WITOUHT_PARAMS[text]);
+    });
+    
+  }
+
 }
 
 export default RegisterPage;

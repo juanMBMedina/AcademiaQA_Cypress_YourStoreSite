@@ -1,11 +1,11 @@
 import BasePageWithMenu from "../base/BasePageWithMenu";
 import AccountPage from "../account/AccountPage";
-import {writeText} from '../../support/utils';
-import { URLS } from "../../support/constants"; 
+import { writeText } from "../../support/utils";
+import { URLS } from "../../support/constants";
+import { MSSG } from "../../support/constants";
 
-class LoginPage extends BasePageWithMenu{
-
-  constructor(){
+class LoginPage extends BasePageWithMenu {
+  constructor() {
     super(URLS.LOGIN);
     this.elements = this.defaultElements;
   }
@@ -15,7 +15,7 @@ class LoginPage extends BasePageWithMenu{
       ...super.defaultElements,
       inputEmail: () => cy.get("#input-email"),
       inputPassword: () => cy.get("#input-password"),
-      submitButton: () => cy.get("[type='submit']")    
+      submitButton: () => cy.get("[type='submit']"),
     };
   }
 
@@ -23,16 +23,27 @@ class LoginPage extends BasePageWithMenu{
     writeText(user.email, this.elements.inputEmail());
     writeText(user.password, this.elements.inputPassword());
     this.elements.submitButton().click();
-    cy.url().should("contain", URLS.ACCOUNT);
     return new AccountPage();
   }
 
-  validateFormIsVisible(){
+  validateFormIsVisible() {
     this.validateNavBar();
     this.validateRigthBar();
     this.elements.inputEmail().should("be.visible");
     this.elements.inputPassword().should("be.visible");
     this.elements.submitButton().should("be.visible");
+  }
+
+  validateFailureLogin() {
+    this.elements.msgAlert().invoke("text").then((text) => {
+      if(text === MSSG.LOGIN_PAGE.LOGIN_FAILURE){
+        cy.contains(MSSG.LOGIN_PAGE.LOGIN_FAILURE).should("be.visible");
+      }else if(text === MSSG.LOGIN_PAGE.MAX_LOGIN_FAILURE){
+        cy.contains(MSSG.LOGIN_PAGE.MAX_LOGIN_FAILURE).should("be.visible");
+      }else{
+        cy.fail(`El mensaje: {$text} fue inesperado`);
+      }
+    });
   }
 }
 
