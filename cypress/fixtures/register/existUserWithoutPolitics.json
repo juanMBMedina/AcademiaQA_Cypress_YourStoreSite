@@ -5,6 +5,6 @@
   "telephone": "123456789",
   "password": "clave1",
   "suscribe": false,
-  "privacy": false,
-  "expectedText": "You must agree to the Privacy Policy!"
+  "privacity": false,
+  "expectedText": " Warning: You must agree to the Privacy Policy!"
 }

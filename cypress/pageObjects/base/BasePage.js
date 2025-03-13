@@ -64,8 +64,12 @@ class BasePage {
     this._navBarSingleItems = value;
   }
 
+  validateURLWith(endpoint) {
+    cy.url().should("contain", endpoint);
+  }
+
   validateURL() {
-    cy.url().should("contain", this.endpoint);
+    this.validateURLWith(this.endpoint);
   }
 
   /**

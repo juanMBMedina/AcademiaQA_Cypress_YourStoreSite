@@ -9,5 +9,22 @@
       "title":"My Account",
       "elements": ["Register", "Login"]
     }
+  ],
+
+  "columnRightItems": [
+    "Login",
+    "Register",
+    "Password",
+    "Forgotten Password",
+    "My Account",
+    "Address Book",
+    "Wish List",
+    "Order History",
+    "Downloads",
+    "Recurring payments",
+    "Reward Points",
+    "Returns",
+    "Transactions",
+    "Newsletter"
   ]
 }

@@ -16,7 +16,7 @@ export function generateNewUser() {
     telephone: faker.string.numeric(10),
     password: faker.internet.password(),
     suscribe: true,
-    privacy: true,
+    privacity: true,
     expectedText:
       "Congratulations! Your new account has been successfully created!",
   };

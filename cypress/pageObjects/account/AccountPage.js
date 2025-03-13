@@ -7,51 +7,21 @@ class AccountPage extends BasePageWithMenu {
     super(URLS.ACCOUNT);
     this.navBarSectionItems = data.sectionNavItems;
     this.elements = this.defaultElements;
-    console.log(this.elements);
+    this.columnRightItems = data.columnRightItems;
+    this.sectionsPage = data.sectionsPage;
   }
 
-  sectionsPage = [
-    {
-      title: "My Account",
-      links: ["Edit Account", "Password", "Address Book", "Wish List (%s)"],
-    },
-    {
-      title: "My Orders",
-      links: [
-        "Order History",
-        "Downloads",
-        "Reward Points",
-        "Returns",
-        "Transactions",
-        "Payment Profile",
-      ],
-    },
-    {
-      title: "My Affiliate Account",
-      links: ["Register for an affiliate account"],
-    },
-    {
-      title: "Newsletter",
-      links: ["Newsletter"],
-    },
-  ];
+  // 🔹 Getter y Setter para `sectionsPage`
+  get sectionsPage() {
+    return this._sectionsPage;
+  }
 
-  barItems = [
-    "My Account",
-    "Edit Account",
-    "Password",
-    "Address Book",
-    "Wish List",
-    "Order History",
-    "Downloads",
-    "Recurring payments",
-    "Reward Points",
-    "Returns",
-    "Transactions",
-    "Newsletter",
-    "Logout",
-  ];
-
+  set sectionsPage(value) {
+    if (typeof value !== "object" || value === null) {
+      throw new Error("❌ elements debe ser un objeto.");
+    }
+    this._sectionsPage = value;
+  }
   
   get defaultElements() {
     return {
@@ -72,15 +42,10 @@ class AccountPage extends BasePageWithMenu {
     });
   }
 
-  validateNavBar(){
-    this.validateURL();
-    this.validateNavBarSingleItems(this.navBarSingleItems);
-    this.validateNavBarSections(this.navBarSectionItems);
-  }
-
   validateLoginSuccess() {
+    this.validateNavBar();
     this.validateSections();
-    this.validateMenuBar(this.barItems);
+    this.validateRigthBar();
   }
 }
 

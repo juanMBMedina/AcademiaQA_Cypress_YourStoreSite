@@ -6,7 +6,7 @@
     "telephone": "123456789",
     "password": "clave1",
     "suscribe": true,
-    "privacy": true,
+    "privacity": true,
     "expectedText": "First Name must be between 1 and 32 characters!"
   },
   {
@@ -16,7 +16,7 @@
     "telephone": "123456789",
     "password": "clave1",
     "suscribe": true,
-    "privacy": true,
+    "privacity": true,
     "expectedText": "Last Name must be between 1 and 32 characters!"
   },
   {
@@ -26,7 +26,7 @@
     "telephone": "123456789",
     "password": "clave1",
     "suscribe": true,
-    "privacy": true,
+    "privacity": true,
     "expectedText": "E-Mail Address does not appear to be valid!"
   },
   {
@@ -36,7 +36,7 @@
     "telephone": "",
     "password": "clave1",
     "suscribe": true,
-    "privacy": true,
+    "privacity": true,
     "expectedText": "Telephone must be between 3 and 32 characters!"
   },
   {
@@ -46,7 +46,7 @@
     "telephone": "123456789",
     "password": "",
     "suscribe": true,
-    "privacy": true,
+    "privacity": true,
     "expectedText": "Password must be between 4 and 20 characters!"
   }
 ]

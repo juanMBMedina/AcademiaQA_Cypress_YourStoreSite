@@ -7,18 +7,31 @@ import {generateNewUser} from "../support/utils";
 const filePath = "cypress/data/generatedUsers.json";
 
 describe("Your Store Site: Register User Tests", () => {
+
   const principalPage = new HomePage();
+
+  // Can you implement hooks -> before, after (All suite)
+  //                            beforeEach, afterEach (each test case)
+
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.window().then((win) => {
+      win.sessionStorage.clear();
+    });
+  });
+  
 
   it("YS-1 - Validate new user have been created succesfuly", () => {
     principalPage.navigateToPage();
     const registerPage = principalPage.goToRegisterPage();
     const newUser = generateNewUser();
     cy.log(newUser);
+    registerPage.validateFormIsVisible();
     registerPage.fillRegisterForm(newUser);
-    // Fails te page isn't going to success create user
+    // Fails te page isn't going to success create user change http protocol !
     registerPage.validateMssg(newUser.expectedText);
   });
-
 
   it("YS-2 - Validate error mssg when try to register an exist user", () => {
     principalPage.navigateToPage();
@@ -38,7 +51,7 @@ describe("Your Store Site: Register User Tests", () => {
     });
   });
 
-  it("YS-4 - Validate error message when try to register a user without privacy politics", () => {
+  it("YS-4 - Validate error message when try to register a user without privacity politics", () => {
     principalPage.navigateToPage();
     const registerPage = principalPage.goToRegisterPage();
     registerPage.fillRegisterForm(userWithoutPolitics);

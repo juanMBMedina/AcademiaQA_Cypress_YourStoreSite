@@ -8,5 +8,46 @@
       "title":"My Account",
       "elements": ["My Account", "Order History","Transactions","Downloads","Logout"]
     }
+  ],
+  "columnRightItems": [
+    "My Account",
+    "Edit Account",
+    "Password",
+    "Address Book",
+    "Wish List",
+    "Order History",
+    "Downloads",
+    "Recurring payments",
+    "Reward Points",
+    "Returns",
+    "Transactions",
+    "Newsletter",
+    "Logout"
+  ],
+
+  "sectionsPage": [
+    {
+      "title": "My Account",
+      "links": ["Edit Account", "Password", "Address Book", "Wish List (%s)"]
+    },
+    {
+      "title": "My Orders",
+      "links": [
+        "Order History",
+        "Downloads",
+        "Reward Points",
+        "Returns",
+        "Transactions",
+        "Payment Profile"
+      ]
+    },
+    {
+      "title": "My Affiliate Account",
+      "links": ["Register for an affiliate account"]
+    },
+    {
+      "title": "Newsletter",
+      "links": ["Newsletter"]
+    }
   ]
 }

@@ -10,23 +10,6 @@ class LoginPage extends BasePageWithMenu{
     this.elements = this.defaultElements;
   }
 
-  barItems = [
-    "Login",
-    "Register",
-    "Password",
-    "Forgotten Password",
-    "My Account",
-    "Address Book",
-    "Wish List",
-    "Order History",
-    "Downloads",
-    "Recurring payments",
-    "Reward Points",
-    "Returns",
-    "Transactions",
-    "Newsletter"
-  ];
-
   get defaultElements() {
     return {
       ...super.defaultElements,
@@ -45,7 +28,8 @@ class LoginPage extends BasePageWithMenu{
   }
 
   validateFormIsVisible(){
-    this.validateMenuBar(this.barItems);
+    this.validateNavBar();
+    this.validateRigthBar();
     this.elements.inputEmail().should("be.visible");
     this.elements.inputPassword().should("be.visible");
     this.elements.submitButton().should("be.visible");

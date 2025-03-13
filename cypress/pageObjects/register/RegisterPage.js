@@ -20,15 +20,13 @@ class RegisterPage extends BasePageWithMenu {
       inputConfirmPassword: () => cy.get("#input-confirm"),
       suscribeRadioButton: (option) =>
         cy.get(".radio-inline").find("input").eq(!option).click(),
-      privacyChecbox: (option) => {
-        if (option) cy.get("[type='checkbox']").click();
-      },
+      privacityCheckbox: () => cy.get("[type='checkbox']"),
       submitButton: () => cy.get("[type='submit']"),
+      form: () => cy.get(".form-horizontal")
     };
   }
 
   fillRegisterForm(user) {
-    writeText(user.name, this.elements.inputName());
     writeText(user.name, this.elements.inputName());
     writeText(user.lastName, this.elements.inputLastName());
     writeText(user.email, this.elements.inputEmail());
@@ -36,8 +34,25 @@ class RegisterPage extends BasePageWithMenu {
     writeText(user.password, this.elements.inputPassword());
     writeText(user.password, this.elements.inputConfirmPassword());
     this.elements.suscribeRadioButton(user.suscribe);
-    this.elements.privacyChecbox(user.privacy);
+
+    if(user.privacity) this.elements.privacityCheckbox().check();
+    else this.elements.privacityCheckbox().uncheck();
+    
     this.elements.submitButton().click();
+  }
+
+  validateFormIsVisible(){
+    this.validateNavBar();
+    this.validateRigthBar();
+    this.elements.inputName().should("be.visible");
+    this.elements.inputLastName().should("be.visible");
+    this.elements.inputEmail().should("be.visible");
+    this.elements.inputTelephone().should("be.visible");
+    this.elements.inputPassword().should("be.visible");
+    this.elements.inputConfirmPassword().should("be.visible");
+    this.elements.suscribeRadioButton().should("be.visible");
+    this.elements.privacityCheckbox().should("be.visible");
+    this.elements.submitButton().should("be.visible");
   }
 
   validateMssg(text) {
