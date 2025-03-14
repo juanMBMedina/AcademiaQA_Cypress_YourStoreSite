@@ -15,14 +15,14 @@ class HomePage extends BasePage {
 
   goToRegisterPage() {
     this.clickAccOptions();
-    this.getNavItem("My Account", "Register").click();
+    this.getHeaderItem("My Account", "Register").click();
     cy.url().should("contain", URLS.REGISTER);
     return new RegisterPage();
   }
 
   goToLoginPage() {
     this.clickAccOptions();
-    this.getNavItem("My Account", "Login").click();
+    this.getHeaderItem("My Account", "Login").click();
     cy.url().should("contain", URLS.LOGIN);
     return new LoginPage();
   }

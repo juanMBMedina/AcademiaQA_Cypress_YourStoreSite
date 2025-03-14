@@ -42,6 +42,18 @@ class BasePage {
     return this._endpoint;
   }
 
+  validateURLWith(endpoint) {
+    cy.url().should("contain", endpoint);
+  }
+
+  validateURL() {
+    this.validateURLWith(this.endpoint);
+  }
+
+  validateMssg(text){
+    this.elements.mssgInPage(text).should("be.visible");
+  }
+
   // Getter y Setter para `navBarSectionItems`
   get navBarSectionItems() {
     return this._navBarSectionItems;
@@ -66,14 +78,6 @@ class BasePage {
     this._navBarSingleItems = value;
   }
 
-  validateURLWith(endpoint) {
-    cy.url().should("contain", endpoint);
-  }
-
-  validateURL() {
-    this.validateURLWith(this.endpoint);
-  }
-
   /**
    * get an object from `navBarSectionItems` o `navBarSingleItems`
    * @param {string} parentText
@@ -81,7 +85,7 @@ class BasePage {
    * @returns {cy.object} cy.object
    * @throws {Error}
    */
-  getNavItem(parentText, childText = null) {
+  getHeaderItem(parentText, childText = null) {
     if (childText) {
       // Buscar en `navBarSectionItems`
       const section = this.navBarSectionItems.find(
@@ -112,15 +116,15 @@ class BasePage {
 
   validateNavBarSingleItems(navBarSingleItems) {
     navBarSingleItems
-      .map((item) => this.getNavItem(item))
+      .map((item) => this.getHeaderItem(item))
       .forEach((element) => element.should("exist"));
   }
 
   validateNavBarSections(navBarSectionItems) {
     navBarSectionItems.forEach((section) => {
-      this.getNavItem(section.title).should("exist");
+      this.getHeaderItem(section.title).should("exist");
       section.elements.forEach((subItem) => {
-        this.getNavItem(section.title, subItem).should("exist");
+        this.getHeaderItem(section.title, subItem).should("exist");
       });
     });
   }
@@ -132,12 +136,9 @@ class BasePage {
   }
 
   clickAccOptions() {
-    this.getNavItem("My Account").click();
+    this.getHeaderItem("My Account").click();
   }
 
-  validateMssg(text){
-    this.elements.mssgInPage(text).should("be.visible");
-  }
 }
 
 export default BasePage;

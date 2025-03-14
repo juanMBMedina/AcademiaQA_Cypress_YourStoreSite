@@ -51,7 +51,7 @@ class AccountPage extends BasePageWithMenu {
 
   performLogout() {
       this.clickAccOptions();
-      this.getNavItem("My Account", "Logout").click();
+      this.getHeaderItem("My Account", "Logout").click();
       return new LogoutPage();
     }
 }
