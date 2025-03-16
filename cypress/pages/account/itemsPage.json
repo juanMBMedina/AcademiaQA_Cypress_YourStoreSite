@@ -1,4 +1,5 @@
 {
+  "singleNavItems": ["Wish List", "Shopping Cart", "Checkout"],
   "sectionNavItems":[
     {
       "title": "Currency",

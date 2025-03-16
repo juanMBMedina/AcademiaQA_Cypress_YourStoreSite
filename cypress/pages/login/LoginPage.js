@@ -2,7 +2,7 @@ import BasePageWithMenu from "../base/BasePageWithMenu";
 import AccountPage from "../account/AccountPage";
 import { writeText } from "../../support/utils";
 import { URLS } from "../../support/constants";
-import { MSSG } from "../../support/constants";
+import { PAGE_MSSGS } from "../../support/constants";
 
 class LoginPage extends BasePageWithMenu {
   constructor() {
@@ -23,6 +23,7 @@ class LoginPage extends BasePageWithMenu {
     writeText(user.email, this.elements.inputEmail());
     writeText(user.password, this.elements.inputPassword());
     this.elements.submitButton().click();
+
     return new AccountPage();
   }
 
@@ -35,15 +36,20 @@ class LoginPage extends BasePageWithMenu {
   }
 
   validateFailureLogin() {
-    this.elements.msgAlert().invoke("text").then((text) => {
-      if(text === MSSG.LOGIN_PAGE.LOGIN_FAILURE){
-        cy.contains(MSSG.LOGIN_PAGE.LOGIN_FAILURE).should("be.visible");
-      }else if(text === MSSG.LOGIN_PAGE.MAX_LOGIN_FAILURE){
-        cy.contains(MSSG.LOGIN_PAGE.MAX_LOGIN_FAILURE).should("be.visible");
-      }else{
-        cy.fail(`El mensaje: {$text} fue inesperado`);
-      }
-    });
+    this.elements
+      .msgAlert()
+      .invoke("text")
+      .then((text) => {
+        if (text === PAGE_MSSGS.LOGIN_PAGE.LOGIN_FAILURE) {
+          cy.contains(PAGE_MSSGS.LOGIN_PAGE.LOGIN_FAILURE).should("be.visible");
+        } else if (text === PAGE_MSSGS.LOGIN_PAGE.MAX_LOGIN_FAILURE) {
+          cy.contains(PAGE_MSSGS.LOGIN_PAGE.MAX_LOGIN_FAILURE).should(
+            "be.visible"
+          );
+        } else {
+          cy.fail(`El mensaje: {$text} fue inesperado`);
+        }
+      });
   }
 }
 

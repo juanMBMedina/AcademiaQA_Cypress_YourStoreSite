@@ -1,39 +1,26 @@
 import BasePage from "./BasePage";
-import data from "./itemsPage";
+import RightMenu from "./elements/RightMenu";
+import defaultData from "./itemsPage";
 
 class BasePageWithMenu extends BasePage {
-  constructor(endpoint) {
-    super(endpoint);
-    this.elements = this.defaultElements;
-    this.columnRightItems = data.columnRightItems;    
-  }
+  constructor(endpoint, dataPage = defaultData) {
 
-  // 🔹 Getter y Setter para `columnRightItem`
-  get columnRightItems() {
-    return this._columnRightItems;
-  }
-
-  set columnRightItems(value) {
-    if (!Array.isArray(value)) {
-      throw new Error("❌ navBarSectionItems debe ser un array.");
+    if (new.target === BasePageWithMenu) {
+      throw new Error(ERROR_MSSGS.INST_ERROR(BasePageWithMenu.name));
     }
-    this._columnRightItems = value;
+    
+    super(endpoint, dataPage);
+    this._rightMenu = new RightMenu(dataPage);
+    this.elements = this.defaultElements;
   }
 
-  // Getter que amplía los elementos de `BasePage`
-  get defaultElements() {
-    return {
-      ...super.defaultElements,
-      menuBar: () => cy.get("#column-right"),
-      itemMenuBar: (text) => cy.get("#column-right").contains("a", text),
-    };
+  // 🔹 Getter y Setter para `rightMenu`
+  get rightMenu() {
+    return this._rightMenu;
   }
-  
+
   validateRigthBar() {
-    this.elements.menuBar().should("be.visible");
-    this.columnRightItems.forEach((text) => {
-      this.elements.itemMenuBar(text).should("be.visible");
-    });
+    this.rightMenu.validateRigthBar();
   }
 }
 

@@ -7,7 +7,7 @@ export const URLS = {
     ACCOUNT: "/index.php?route=account/account",
   };
 
-export const MSSG = {
+export const PAGE_MSSGS = {
   LOGIN_PAGE: {
     LOGIN_FAILURE: " Warning: No match for E-Mail Address and/or Password.",
     MAX_LOGIN_FAILURE: " Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour."
@@ -30,5 +30,9 @@ export const MSSG = {
   HOME_PAGE: {
     SUCCES_COMPARATION: (nameItem) =>  `Success: You have added ${nameItem} to your product comparison!`
   }
+};
 
+export const ERROR_MSSGS = {
+    INST_ERROR: (nameClass) =>  `${nameClass} is an abstract class and cannot be instantiated directly.`,
+    PARAM_ERROR: (nameParam) =>  `${nameParam} doesn't exist in the Object, please check the body of Object.`
 };

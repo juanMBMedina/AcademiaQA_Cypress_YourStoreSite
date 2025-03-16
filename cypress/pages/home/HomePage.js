@@ -13,16 +13,26 @@ class HomePage extends BasePage {
     this.validateURL();
   }
 
+  //Check file ´./itemsPage.json´ to use or create the next methods:
+  
+  clickOnRegister() {
+    this.headerMenu.clickOnOption("My Account", "Register");
+  }
+
+  clickOnLogin() {
+    this.headerMenu.clickOnOption("My Account", "Login");
+  }
+
   goToRegisterPage() {
     this.clickAccOptions();
-    this.getHeaderItem("My Account", "Register").click();
+    this.clickOnRegister();
     cy.url().should("contain", URLS.REGISTER);
     return new RegisterPage();
   }
 
   goToLoginPage() {
     this.clickAccOptions();
-    this.getHeaderItem("My Account", "Login").click();
+    this.clickOnLogin();
     cy.url().should("contain", URLS.LOGIN);
     return new LoginPage();
   }

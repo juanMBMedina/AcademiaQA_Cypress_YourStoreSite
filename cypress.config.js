@@ -9,7 +9,7 @@ module.exports = defineConfig({
       // Implementación de eventos de Cypress
       on("task", {
         reportTo({ testCaseId, status }) {
-          console.log(`Reportando ${testCaseId} con estado: ${status}`);
+         
           return null;
         },
       });

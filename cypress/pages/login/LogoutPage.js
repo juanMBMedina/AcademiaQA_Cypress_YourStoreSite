@@ -1,6 +1,6 @@
 import BasePageWithMenu from "../base/BasePageWithMenu";
 import { URLS } from "../../support/constants";
-import { MSSG } from "../../support/constants";
+import { PAGE_MSSGS } from "../../support/constants";
 import HomePage from "../home/HomePage";
 
 class LoginPage extends BasePageWithMenu{
@@ -27,7 +27,7 @@ class LoginPage extends BasePageWithMenu{
     this.validateNavBar();
     this.validateRigthBar();
     this.elements.continueButton().should("be.visible");
-    this.validateMssg(MSSG.LOGOUT_PAGE.SUCCES_LOGUT);
+    this.validateMssg(PAGE_MSSGS.LOGOUT_PAGE.SUCCES_LOGUT);
   }
 
 }

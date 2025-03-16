@@ -1,6 +1,6 @@
 import { writeText, getEmptyFields } from "../../support/utils";
 import BasePageWithMenu from "../base/BasePageWithMenu";
-import { MSSG, URLS } from "../../support/constants";
+import { PAGE_MSSGS, URLS } from "../../support/constants";
 
 class RegisterPage extends BasePageWithMenu {
   constructor() {
@@ -55,20 +55,20 @@ class RegisterPage extends BasePageWithMenu {
   }
 
   validateMssgNewUser(){
-    this.validateMssg(MSSG.REGISTER_PAGE.SUCCES_REGISTER);
+    this.validateMssg(PAGE_MSSGS.REGISTER_PAGE.SUCCES_REGISTER);
   }
 
   validateMssgUserExist(){
-    this.validateMssg(MSSG.REGISTER_PAGE.USER_EXIST);
+    this.validateMssg(PAGE_MSSGS.REGISTER_PAGE.USER_EXIST);
   }
 
   validateMssgWithoutPrivacity(){
-    this.validateMssg(MSSG.REGISTER_PAGE.WITHOUT_PRIVACITY);
+    this.validateMssg(PAGE_MSSGS.REGISTER_PAGE.WITHOUT_PRIVACITY);
   }
 
   validateMssgWithoutParam(user){
     getEmptyFields(user).forEach(text =>{
-      this.validateMssg(MSSG.REGISTER_PAGE.WITOUHT_PARAMS[text]);
+      this.validateMssg(PAGE_MSSGS.REGISTER_PAGE.WITOUHT_PARAMS[text]);
     });
     
   }
