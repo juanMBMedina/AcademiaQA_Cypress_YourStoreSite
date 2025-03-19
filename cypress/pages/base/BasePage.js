@@ -1,6 +1,10 @@
 import defaultData from "./itemsPage.json";
 import HeaderMenu from "./elements/HeaderMenu";
 import { ERROR_MSSGS } from "../../support/constants";
+import { URLS } from "../../support/constants";
+import CategoryMenu from "./elements/CategoryMenu";
+import HomePage from "../home/HomePage";
+
 
 class BasePage {
   constructor(endpoint, dataPage = defaultData) {
@@ -15,6 +19,7 @@ class BasePage {
   // 🔹 Getter to get default elements
   get defaultElements() {
     return {
+      homeButton: () => cy.contains("a", "Your Store"),
       mssgInPage: (text) => cy.contains(text),
       msgAlert: () => cy.get(".alert"),
     };
@@ -64,6 +69,22 @@ class BasePage {
   clickAccOptions() {
     this.headerMenu.clickOnOption("My Account");
   }
+
+  // Click to go Home.
+  goToHome() {
+    this.elements.homeButton().click();
+    this.validateURLWith(URLS.HOME);
+    return new HomePage();
+  }
+
+  // Click on the Option of Categories in the Page.
+  clickItemOption(dataItem) {
+    var tempSelect = new CategoryMenu(dataItem);
+    var itemFound = tempSelect.goToItem();
+    this.validateURLWith(URLS.CATEGORY_ITEM);
+    return itemFound;
+  }
+
 }
 
 export default BasePage;

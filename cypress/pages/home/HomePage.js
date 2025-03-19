@@ -2,6 +2,7 @@ import BasePage from "../base/BasePage";
 import LoginPage from "../login/LoginPage";
 import RegisterPage from "../register/RegisterPage";
 import { URLS } from "../../support/constants";
+import WishListPage from "../wish_list/WishListPage";
 
 class HomePage extends BasePage {
   constructor() {
@@ -14,7 +15,7 @@ class HomePage extends BasePage {
   }
 
   //Check file ´./itemsPage.json´ to use or create the next methods:
-  
+
   clickOnRegister() {
     this.headerMenu.clickOnOption("My Account", "Register");
   }
@@ -26,17 +27,38 @@ class HomePage extends BasePage {
   goToRegisterPage() {
     this.clickAccOptions();
     this.clickOnRegister();
-    cy.url().should("contain", URLS.REGISTER);
+    this.validateURLWith(URLS.REGISTER);
     return new RegisterPage();
   }
 
   goToLoginPage() {
     this.clickAccOptions();
     this.clickOnLogin();
-    cy.url().should("contain", URLS.LOGIN);
+    this.validateURLWith(URLS.LOGIN);
     return new LoginPage();
+  } 
+
+  goToWishList() {
+    this.headerMenu.clickOnOption("Wish List");
+    this.validateURLWith(URLS.WISH_LIST);
+    return new WishListPage();
   }
 
+  performComparation(itemFound) {
+    itemFound.performComparation();
+  }
+
+  addWishList(itemFound){
+    itemFound.addWishList();
+  }
+
+  validateItem(itemFound){
+    itemFound.validateItem();
+  }
+
+  validateCompMssg(itemFound) {
+    itemFound.validateCompMssg();
+  }
 }
 
 export default HomePage;

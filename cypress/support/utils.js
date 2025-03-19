@@ -16,21 +16,25 @@ export function generateNewUser() {
     telephone: faker.string.numeric(10),
     password: faker.internet.password(),
     suscribe: true,
-    privacity: true
+    privacity: true,
   };
   return user;
 }
 
 export function getEmptyFields(objeto) {
   return Object.keys(objeto)
-      .filter(key => typeof objeto[key] === "string" && objeto[key] === "")
-      .map(key => key.toUpperCase());
+    .filter((key) => typeof objeto[key] === "string" && objeto[key] === "")
+    .map((key) => key.toUpperCase());
 }
 
-export function cleanCookies(){
+export function cleanCookies() {
   cy.clearCookies();
   cy.clearLocalStorage();
   cy.window().then((win) => {
     win.sessionStorage.clear();
   });
+}
+
+export async function getTextOf(cyElement) {
+  return await cyElement.invoke("text").then((text) => text.trim());
 }

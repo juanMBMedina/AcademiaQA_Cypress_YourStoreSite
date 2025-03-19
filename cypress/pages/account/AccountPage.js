@@ -7,11 +7,13 @@ import { URLS } from "../../support/constants";
 class AccountPage extends BasePageWithMenu {
   constructor() {
     if (dataPage.sectionsPage === undefined) {
-          throw new Error(ERROR_MSSGS.PARAM_ERROR("sectionsPage"));
-        }
+      throw new Error(ERROR_MSSGS.PARAM_ERROR("sectionsPage"));
+    }
     super(URLS.ACCOUNT, dataPage);
     this.elements = this.defaultElements;
-    this.sectionsPage = dataPage.sectionsPage.map((item) => new SectionAccount(item));
+    this.sectionsPage = dataPage.sectionsPage.map(
+      (item) => new SectionAccount(item)
+    );
   }
 
   // 🔹 Getter y Setter para `sectionsPage`
