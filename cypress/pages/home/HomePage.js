@@ -3,6 +3,7 @@ import LoginPage from "../login/LoginPage";
 import RegisterPage from "../register/RegisterPage";
 import { URLS } from "../../support/constants";
 import WishListPage from "../wish_list/WishListPage";
+import ShoppingCart from "../shopping_cart/ShoppingCart";
 
 class HomePage extends BasePage {
   constructor() {
@@ -44,12 +45,22 @@ class HomePage extends BasePage {
     return new WishListPage();
   }
 
+  goToShoppingCart() {
+    this.headerMenu.clickOnOption("Shopping Cart");
+    this.validateURLWith(URLS.SHOPPING_CART);
+    return new ShoppingCart();
+  }
+
   performComparation(itemFound) {
     itemFound.performComparation();
   }
 
   addWishList(itemFound){
     itemFound.addWishList();
+  }
+
+  addToCart(itemFound){
+    itemFound.addToCart();
   }
 
   validateItem(itemFound){

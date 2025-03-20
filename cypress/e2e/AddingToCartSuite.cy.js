@@ -9,6 +9,7 @@ describe("Your Store Site: Login User Tests", () => {
   var accPage;
   var itemFound;
   var wishPage;
+  var shopCartPage;
 
   beforeEach(() => {
     cleanCookies();
@@ -34,9 +35,30 @@ describe("Your Store Site: Login User Tests", () => {
     homePage.addWishList(itemFound);
     wishPage = homePage.goToWishList(itemFound);
     wishPage.validateItemWith(itemFound);
+    cy.task("reportTo", { testCaseId: "YS-10", status: "PASSED" });
+  });
+
+  it("YS-11 - Validate the deletion of a favorite product", () => {
+    homePage.addWishList(itemFound);
+    wishPage = homePage.goToWishList(itemFound);
+    wishPage.validateItemWith(itemFound);
     wishPage.clickRemoveList(itemFound);
     wishPage.validateRemoveItem(itemFound);
-    cy.task("reportTo", { testCaseId: "YS-10", status: "PASSED" });
+    cy.task("reportTo", { testCaseId: "YS-11", status: "PASSED" });
+  });
+
+  it("YS-12 - Validate the loading of a product into the shopping cart", () => {
+    homePage.addToCart(itemFound);
+    shopCartPage = homePage.goToShoppingCart(itemFound);
+    cy.task("reportTo", { testCaseId: "YS-12", status: "PASSED" });
+  });
+
+  it("YS-13 - See the product was removed from the shopping cart.", () => {
+    homePage.addToCart(itemFound);
+    shopCartPage = homePage.goToShoppingCart(itemFound);
+    shopCartPage.clickRemoveList(itemFound);
+    shopCartPage.validateVoidCart()
+    cy.task("reportTo", { testCaseId: "YS-13", status: "PASSED" });
   });
 
 });

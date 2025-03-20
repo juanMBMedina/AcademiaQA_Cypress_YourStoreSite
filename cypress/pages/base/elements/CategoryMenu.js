@@ -14,18 +14,19 @@ class CategoryMenu {
   get defaultElements() {
     return {
       menuClasses: () => cy.get("#menu"),
-      itemType: (type) => this.elements.menuClasses().get("li").contains(type),
-      itemCategory: (type, category) => this.elements.itemType(type).get("li").contains(category),
+      itemType: (type) => this.elements.menuClasses().contains("li",type),
+      itemCategory: (type, category) => this.elements.itemType(type).contains("li", category),
       
     };
   }
 
   goToItem(){
     this.elements.itemType(this.data.type).click(); 
-    if(this.data.category === undefined){  
+    if(this.data.category === undefined){   
       return new ItemFound(this.data.title);
     }
-    this.elements.itemCategory(this.data.type, this.data.category).click();
+    console.log(this.data);
+    this.elements.itemCategory(this.data.type, this.data.category).should("exist").click();
     return new ItemFound(this.data.title);
   }
 

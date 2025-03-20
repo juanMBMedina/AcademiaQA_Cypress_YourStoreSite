@@ -12,7 +12,7 @@ class WishListPage extends BasePageWithMenu {
     return {
       ...super.defaultElements,
       tableItems: () => cy.get(".table-responsive").get("tbody"),
-      rowItem: (text) => this.elements.tableItems().contains("tr", text),
+      rowItem: (text) => cy.xpath(`//div[@id='content']//*[contains(text(),'${text}')]/ancestor::tr`),
       productName: (text) =>
         this.elements.rowItem(text).contains("a", text),
       productPrice: (text, price) => this.elements.rowItem(text).get(".price").contains(price),
