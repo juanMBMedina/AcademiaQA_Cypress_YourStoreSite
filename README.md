@@ -14,90 +14,116 @@ The main objective of this project is to demonstrate the implementation of a com
 ## File Structure
 ```
 AcademiaQA_Cypress_YourStoreSite/
-├── cypress/
-│   ├── downloads/
-│   ├── e2e/
-│   │   ├── registerUserSuite.cy.js
-│   ├── fixtures/
-│   │   ├── register/
-│   │   │   ├── existUser.json
-│   │   │   ├── existUserWithoutPolitics.json
-│   │   │   ├── usersWithoutParam.json
-│   ├── pages/
-│   │   ├── HomePage.js
-│   │   ├── RegisterPage.js
-│   ├── support/
-│   │   ├── commands.js
-│   │   ├── e2e.js
-│   │   ├── utils.js
-├── node_modules/
-├── test_plan/
-│   ├── Data Test Plan.xlsx
-│   ├── Test Plan.xlsx
-├── .gitignore
-├── cypress.config.js
 ├── LICENSE
+├── README.md
+├── cypress
+│   ├── downloads
+│   ├── e2e
+│   │   ├── AddingToCartSuite.cy.js
+│   │   ├── loginUserSuite.cy.js
+│   │   └── registerUserSuite.cy.js
+│   ├── fixtures
+│   ├── pages
+│   ├── reports
+│   ├── support
+│   └── videos
+├── cypress.config.js
 ├── package-lock.json
 ├── package.json
-├── README.md
+└── test_plan
 ```
+
 ## Prerequisites
 
 Before running the tests, ensure you have the following dependencies installed:
 
-- Cypress: 14.1.0
-- Cypress XPath: 2.0.1
-- Faker.js: 9.6.0
-- mochawesome-merge@5.0.0
-- mochawesome-report-generator@6.2.0
-- mochawesome@7.1.3
+- Cypress: ^14.1.0
+- Cypress XPath: ^2.0.1
+- Faker.js: ^9.6.0
+- mochawesome: ^7.1.3
+- mochawesome-merge: ^5.0.0
+- mochawesome-report-generator: ^6.2.0
+- sonarqube-scanner: "^3.5.0"
 
-You can install them by running:
-	```bash
-		npm install
-	```
+### Installing Cypress
+
+To install all dependencies, run:
+
+```bash
+npm install
+```
+
+If Cypress is not installed globally, you can install it with:
+
+```bash
+npm install cypress --save-dev
+```
 
 ## Getting Started
 
 Clone this repository:
-   ```bash
-   # HTTPS
-   git clone https://github.com/juanMBMedina/AcademiaQA_Cypress_YourStoreSite.git
+```bash
+# HTTPS
+git clone https://github.com/juanMBMedina/AcademiaQA_Cypress_YourStoreSite.git
 
-   # SSH
-   git clone git@github.com:juanMBMedina/AcademiaQA_Cypress_YourStoreSite.git
-   ```
-	
-## Navigate to the project directory:
+# SSH
+git clone git@github.com:juanMBMedina/AcademiaQA_Cypress_YourStoreSite.git
+```
 
+Navigate to the project directory:
+
+```bash
 cd AcademiaQA_Cypress_YourStoreSite
+```
 
-## Install the dependencies:
+Install the dependencies:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
 ## Running Tests
 
 To execute all test suites, run:
-   ```bash
-   npx cypress run
-   ```
-To execute a specific test suite (e.g., registerUserSuite.cy.js), use:
-   ```bash
-   npx cypress run --spec "cypress/e2e/registerUserSuite.cy.js" --browser edge
-   ```
+
+```bash
+npx cypress run
+```
+
+To execute a specific test suite (e.g., `registerUserSuite.cy.js`), use:
+
+```bash
+npx cypress run --spec "cypress/e2e/registerUserSuite.cy.js" --browser edge
+```
+
 To open Cypress in interactive mode:
-   ```bash
-   npx cypress open
-   ```
+
+```bash
+npx cypress open
+```
+
+## Available Scripts
+
+This project includes the following scripts for ease of use:
+
+| Script | Description |
+|---------|-------------|
+| `npm run clean-cache` | Clears Cypress cache without uninstalling Cypress |
+| `npm run clean-file` | Removes old screenshots, videos, and reports |
+| `npm run gui-testing` | Opens Cypress in GUI mode |
+| `npm run run:suite` | Runs a specific test suite using environment variables `SUITE` and `BROWSER` |
+
+To run a specific test suite, use:
+
+```bash
+SUITE=loginUserSuite BROWSER=chrome npm run run:suite
+```
 
 ## Test Plan
 
-The test plan provides detailed information about the testing strategy, scope, and objectives. You can view the plan by downloading the following file from the test_plan folder:
+The test plan provides detailed information about the testing strategy, scope, and objectives. You can view the plan by downloading the following file from the `test_plan` folder:
 
-Test Plan.xlsx
+- **Test Plan.xlsx**
 
 ## Contributions
 

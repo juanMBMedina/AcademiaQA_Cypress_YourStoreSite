@@ -46,9 +46,9 @@ module.exports = defineConfig({
     screenshotsFolder: "cypress/screenshots",
 
     // Configuración de Videos
-    video: true,
-    videosFolder: "cypress/videos",
-    videoCompression: 32,
+    //video: true,
+    //videosFolder: "cypress/videos",
+    //videoCompression: 32,
 
     // Configuración de Reportes
     reporter: "mochawesome",

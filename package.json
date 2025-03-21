@@ -1,17 +1,17 @@
 {
   "devDependencies": {
     "@types/cypress": "^0.1.6",
-    "cypress": "^14.1.0",
+    "cypress": "^14.2.0",
     "cypress-xpath": "^2.0.1",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^5.0.0",
     "mochawesome-report-generator": "^6.2.0"
   },
   "scripts": {
-    "clean-cache": "npx cypress cache clear",
+    "clean-cache": "npx cypress cache prune && echo 'Cypress version:' && npx cypress --version",
     "clean-file": "rm -rf cypress/screenshots/* cypress/videos/* cypress/reports/*",
-    "test": "npm run clean && npx cypress run",
-    "gui": "npx cypress open"
+    "gui-testing": "npx cypress open",
+    "run:suite": "npx cypress run --spec \"cypress/e2e/${SUITE}.cy.js\" --browser ${BROWSER}"
   },
   "dependencies": {
     "@faker-js/faker": "^9.6.0"

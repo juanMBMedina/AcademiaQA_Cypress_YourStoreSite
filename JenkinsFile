@@ -1,0 +1,72 @@
+pipeline {
+    agent any
+
+    environment {
+        SUITE = "test_suite"
+        BROWSER = "chrome"
+        SONAR_HOST_URL = 'http://sonarqube:9000'
+        SONAR_PROJECT_KEY = 'AcademiaQA_Cypress_YourStoreSite'
+        SONAR_LOGIN = credentials('sonarqube-token')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/juanMBMedina/AcademiaQA_Cypress_YourStoreSite.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Run Cypress Tests') {
+            steps {
+                sh 'npm run run:suite'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                        npx sonar-scanner \
+                        -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=$SONAR_HOST_URL \
+                        -Dsonar.login=$SONAR_LOGIN
+                    '''
+                }
+            }
+        }
+
+        stage('Generate Report') {
+            steps {
+                sh 'npx mochawesome-merge cypress/reports/*.json > mochawesome-report.json'
+                sh 'npx mochawesome-report-generator mochawesome-report.json'
+            }
+        }
+
+        stage('Archive Test Reports') {
+            steps {
+                archiveArtifacts artifacts: 'mochawesome-report/**', fingerprint: true
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Cleaning cache and temporary files"
+            sh 'npm run clean-cache'
+            sh 'npm run clean-file'
+        }
+        success {
+            echo "✅ Pipeline executed successfully"
+        }
+        failure {
+            echo "❌ Pipeline execution failed"
+        }
+    }
+}
