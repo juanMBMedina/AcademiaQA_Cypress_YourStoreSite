@@ -47,7 +47,7 @@ echo "Starting SSH agent..."
 eval $(ssh-agent -s)
 
 echo "Adding the private key to the SSH agent..."
-ssh-add "$ROOT_SSH_DIR/$PRIVATE_KEY"
+ssh-add "$ROOT_SSH_DIR/$PRIVATE_KEY" >/dev/null 2>&1 && echo "Identity added: [Private Key Loaded]"
 
 # Validate the connection with GitHub
 echo "Verifying connection with GitHub..."
