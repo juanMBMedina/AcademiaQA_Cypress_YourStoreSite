@@ -74,6 +74,7 @@ pipeline {
                 script {
                     sh """
                         docker-compose run --rm sonar-scanner \
+                        -v ${WORKSPACE}:/usr/src \
                         sonar-scanner \
                         -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
                         -Dsonar.login=${SONAR_TOKEN} \
