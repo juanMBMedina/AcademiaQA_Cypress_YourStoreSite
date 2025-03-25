@@ -2,7 +2,7 @@ services:
   jenkins:
     build:
       context: .
-      dockerfile: dockerfiles/Dockerfile.jenkins
+      dockerfile: ./dockerfiles/Dockerfile.jenkins
     image: jenkins_project
     container_name: jenkins
     restart: always
@@ -18,37 +18,10 @@ services:
       ["/bin/bash", "-c", "/var/jenkins_home/setup-ssh.sh || echo 'SSH setup failed, continuing...' && /usr/bin/tini -- /usr/local/bin/jenkins.sh"]
     depends_on:
       - sonarqube
-    environment:
-      #BUILD_URL: 'http://localhost:8080/'
-      SONAR_PROYECT_KEY: "YourStoreSite"
     networks:
       - project-network
-
-
-  sonar-scanner:
-    image: sonarsource/sonar-scanner-cli:latest
-    container_name: sonar-scanner
-    depends_on:
-      - sonarqube
-      - cypress
-    networks:
-      - project-network
-    volumes:
-      - jenkins_home:/var/jenkins_home
-      - node-bin:/usr/local/bin      
-    environment:
-      SONAR_HOST_URL: "http://sonarqube:9000"
-
-  cypress:
-    image: cypress/included:13.7.1
-    container_name: cypress
-    working_dir: /e2e
-    volumes:
-      - node-bin:/usr/local/bin 
-      - ./tests:/e2e
-      - ./cypress-reports:/e2e/cypress/reports
-    networks:
-      - project-network
+    profiles:
+      - base
 
   sonarqube:
     image: sonarqube:lts
@@ -68,6 +41,8 @@ services:
       - sonarqube_extensions:/opt/sonarqube/extensions
     networks:
       - project-network
+    profiles:
+      - base
 
   postgres:
     image: postgres:13.7  
@@ -79,6 +54,29 @@ services:
       POSTGRES_DB: sonar
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - project-network
+    profiles:
+      - base
+
+
+  sonar-scanner:
+    image: sonarsource/sonar-scanner-cli:latest
+    container_name: sonar-scanner
+    networks:
+      - project-network
+    volumes:
+      - ${WORKSPACE}:/usr/src
+      - node-bin:/usr/local/bin
+
+  cypress:
+    image: cypress/included:13.7.1 
+    container_name: cypress
+    working_dir: /e2e
+    volumes:
+      - node-bin:/usr/local/bin 
+      - ./tests:/e2e
+      - ./cypress-reports:/e2e/cypress/reports
     networks:
       - project-network
 
