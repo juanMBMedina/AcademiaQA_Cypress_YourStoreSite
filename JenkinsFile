@@ -1,72 +1,49 @@
 pipeline {
     agent any
-
+    
     environment {
-        SUITE = "test_suite"
-        BROWSER = "chrome"
-        SONAR_HOST_URL = 'http://sonarqube:9000'
-        SONAR_PROJECT_KEY = 'AcademiaQA_Cypress_YourStoreSite'
-        SONAR_LOGIN = credentials('sonarqube-token')
+        GIT_URL = 'git@github.com:juanMBMedina/AcademiaQA_Cypress_YourStoreSite.git'
+		SONAR_EXCLUSIONS = "**/node_modules/**,**/dist/**"
     }
 
     stages {
-        stage('Checkout') {
+        
+        stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/juanMBMedina/AcademiaQA_Cypress_YourStoreSite.git'
+                echo "Current directory: ${env.WORKSPACE}"
+				echo "Cloning from: ${env.GIT_URL}"
+                git branch: 'main', credentialsId: 'github-ssh-key', url: env.GIT_URL
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-
-        stage('Run Cypress Tests') {
-            steps {
-                sh 'npm run run:suite'
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh '''
-                        npx sonar-scanner \
-                        -Dsonar.projectKey=$SONAR_PROJECT_KEY \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=$SONAR_HOST_URL \
-                        -Dsonar.login=$SONAR_LOGIN
-                    '''
-                }
-            }
-        }
-
-        stage('Generate Report') {
-            steps {
-                sh 'npx mochawesome-merge cypress/reports/*.json > mochawesome-report.json'
-                sh 'npx mochawesome-report-generator mochawesome-report.json'
-            }
-        }
-
-        stage('Archive Test Reports') {
-            steps {
-                archiveArtifacts artifacts: 'mochawesome-report/**', fingerprint: true
-            }
-        }
-    }
-
-    post {
-        always {
-            echo "Cleaning cache and temporary files"
-            sh 'npm run clean-cache'
-            sh 'npm run clean-file'
-        }
-        success {
-            echo "✅ Pipeline executed successfully"
-        }
-        failure {
-            echo "❌ Pipeline execution failed"
-        }
+        /*
+		stage('SonarQube Analysis') {
+			steps {
+				script {
+					echo "Getting SonarQube URL..."
+					def sonar_ip = sh(script: "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sonarqube", returnStdout: true).trim()
+					def sonar_host_url = "http://${sonar_ip}:9000"
+					
+					docker exec -it sonar-scanner sh cd /var/jenkins_home/workspace/TestPipeline && ls -la
+					
+					withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+						sh "docker ps | grep sonar-scanner || docker start sonar-scanner"
+						sh """
+							docker run --rm \
+							--network jenkins_default \
+							-v ${env.WORKSPACE}:/workspace \
+							sonar-scanner \
+							sonar-scanner \
+							-Dsonar.projectKey=${SONAR_PROYECT_KEY} \
+							-Dsonar.sources=/workspace \
+							-Dsonar.host.url=${sonar_host_url} \
+							-Dsonar.login=${SONAR_TOKEN} \
+							-Dsonar.exclusions=${SONAR_EXCLUSIONS}
+						"""
+					}
+				}
+			}
+		}
+        */
     }
 }
