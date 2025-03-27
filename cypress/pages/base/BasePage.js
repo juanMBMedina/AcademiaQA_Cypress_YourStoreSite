@@ -1,7 +1,6 @@
 import defaultData from "./itemsPage.json";
 import HeaderMenu from "./elements/HeaderMenu";
-import { ERROR_MSSGS } from "../../support/constants";
-import { URLS } from "../../support/constants";
+import { ERROR_MSSGS, URLS } from "../../support/constants";
 import CategoryMenu from "./elements/CategoryMenu";
 import HomePage from "../home/HomePage";
 
@@ -79,8 +78,8 @@ class BasePage {
 
   // Click on the Option of Categories in the Page.
   clickItemOption(dataItem) {
-    var tempSelect = new CategoryMenu(dataItem);
-    var itemFound = tempSelect.goToItem();
+    let tempSelect = new CategoryMenu(dataItem);
+    let itemFound = tempSelect.goToItem();
     this.validateURLWith(URLS.CATEGORY_ITEM);
     return itemFound;
   }

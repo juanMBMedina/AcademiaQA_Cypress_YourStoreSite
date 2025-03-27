@@ -3,9 +3,7 @@ pipeline {
     
     environment {
         GIT_URL = 'git@github.com:juanMBMedina/AcademiaQA_Cypress_YourStoreSite.git'
-        SONAR_PROJECT_KEY = 'YourStoreSiteCypress'
         SONAR_TOKEN = credentials('sonar-token')
-        SONAR_EXCLUSIONS = "**/node_modules/**,**/dist/**"
         MAX_RETRIES = 3
         WAIT_TIME = 5
     }
@@ -22,35 +20,20 @@ pipeline {
         stage('Wait for SonarQube & Get IP') {
             steps {
                 script {
-                    // Definir funciones locales dentro del script block
-                    def getSonarUrl = { ->
-                        return sh(
-                            script: "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' sonarqube || echo ''",
-                            returnStdout: true
-                        ).trim()
-                    }
-
-                    def isSonarUp = { ip ->
-                        if (ip) {
-                            def statusCode = sh(
-                                script: "curl -s -o /dev/null -w '%{http_code}' http://${ip}:9000",
+                    def isSonarUp = { () ->
+                        def statusCode = sh(
+                                script: "curl -s -o /dev/null -w '%{http_code}' http://sonarqube:9000",
                                 returnStdout: true
                             ).trim()
                             def isUp = (statusCode == "200")
                             echo isUp ? "✅ SonarQube está arriba (HTTP 200 OK)" : "⚠️ SonarQube aún no está listo (Status: ${statusCode})"
                             return isUp
-                        } else {
-                            echo "❌ No se encontró el contenedor de SonarQube. Reintentando..."
-                            return false
-                        }
                     }
 
-                    // Esperar hasta que SonarQube esté disponible
                     def ip = ""
                     def sonarUp = false
                     retry(env.MAX_RETRIES.toInteger()) {
-                        ip = getSonarUrl()
-                        if (isSonarUp(ip)) {
+                        if (isSonarUp()) {
                             sonarUp = true
                             return
                         }
@@ -62,29 +45,16 @@ pipeline {
                     if (!sonarUp) {
                         error("❌ SonarQube no inició en el tiempo esperado. Pipeline abortado.")
                     }
-
-                    env.SONAR_HOST_URL = "http://${ip}:9000"
-                    echo "✅ SonarQube está corriendo en: ${env.SONAR_HOST_URL}"
+                    echo "✅ SonarQube está corriendo en: http://sonarqube:9000"
                 }
             }
         }
 
         stage('Run SonarScanner') {
             steps {
-                script {
-                    sh """
-                        docker-compose run --rm sonar-scanner \
-                        -v ${WORKSPACE}:/usr/src \
-                        sonar-scanner \
-                        -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                        -Dsonar.login=${SONAR_TOKEN} \
-                        -Dsonar.host.url=${SONAR_HOST_URL} \
-                        -Dsonar.sources=/usr/src \
-                        -Dsonar.exclusions=${SONAR_EXCLUSIONS}
-                    """
+                    sh "docker-compose run --rm -e SONAR_TOKEN=${SONAR_TOKEN} sonar-scanner"
                 }
             }
         }
     }
 }
-

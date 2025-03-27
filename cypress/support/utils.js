@@ -9,7 +9,7 @@ export function writeText(text, inputText) {
 }
 
 export function generateNewUser() {
-  var user = {
+  let user = {
     name: faker.person.firstName(),
     lastName: faker.person.lastName(),
     email: faker.internet.email(),

@@ -7,7 +7,7 @@ export const URLS = {
   ACCOUNT: "/index.php?route=account/account",
   CATEGORY_ITEM: "index.php?route=product/category",
   WISH_LIST: "/index.php?route=account/wishlist",
-  SHOPPING_CART: "/index.php?route=checkout/cart"
+  SHOPPING_CART: "/index.php?route=checkout/cart",
 };
 
 export const PAGE_MSSGS = {
@@ -40,9 +40,9 @@ export const PAGE_MSSGS = {
       `Success: You have added ${nameItem} to your shopping cart!`,
     SUCCESS_CHANGE_WHISLIST: `Success: You have modified your wish list!`,
   },
-  SHOPPING_CART:{
-    VOID_CART: "Your shopping cart is empty!"
-  }
+  SHOPPING_CART: {
+    VOID_CART: "Your shopping cart is empty!",
+  },
 };
 
 export const ERROR_MSSGS = {

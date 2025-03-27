@@ -12,10 +12,13 @@ class WishListPage extends BasePageWithMenu {
     return {
       ...super.defaultElements,
       tableItems: () => cy.get(".table-responsive").get("tbody"),
-      rowItem: (text) => cy.xpath(`//div[@id='content']//*[contains(text(),'${text}')]/ancestor::tr`),
-      productName: (text) =>
-        this.elements.rowItem(text).contains("a", text),
-      productPrice: (text, price) => this.elements.rowItem(text).get(".price").contains(price),
+      rowItem: (text) =>
+        cy.xpath(
+          `//div[@id='content']//*[contains(text(),'${text}')]/ancestor::tr`
+        ),
+      productName: (text) => this.elements.rowItem(text).contains("a", text),
+      productPrice: (text, price) =>
+        this.elements.rowItem(text).get(".price").contains(price),
       addToCartButton: (text) =>
         this.elements.rowItem(text).get("[data-original-title='Add to Cart']"),
       deleteItemButton: (text) =>
@@ -31,22 +34,24 @@ class WishListPage extends BasePageWithMenu {
     this._itemFound = newItemFound;
   }
 
-  validateItemWith(itemFound){
+  validateItemWith(itemFound) {
     this.elements.tableItems().should("be.visible");
     this.elements.rowItem(itemFound.name).should("be.visible");
     this.elements.productName(itemFound.name).should("be.visible");
-    this.elements.productPrice(itemFound.name, itemFound.price).should("be.visible");
+    this.elements
+      .productPrice(itemFound.name, itemFound.price)
+      .should("be.visible");
   }
 
-  clickAddToCart(itemFound){
+  clickAddToCart(itemFound) {
     this.elements.addToCartButton(itemFound.name).click();
   }
 
-  clickRemoveList(itemFound){
+  clickRemoveList(itemFound) {
     this.elements.deleteItemButton(itemFound.name).click();
   }
 
-  validateRemoveItem(itemFound){
+  validateRemoveItem(itemFound) {
     this.validateMssg(PAGE_MSSGS.HOME_PAGE.SUCCESS_CHANGE_WHISLIST);
   }
 }

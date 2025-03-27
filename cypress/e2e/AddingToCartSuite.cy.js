@@ -4,12 +4,12 @@ import itemText from "../fixtures/items/itemTest.json";
 import { cleanCookies } from "../support/utils";
 
 describe("Your Store Site: Login User Tests", () => {
-  var homePage = new HomePage();
-  var loginPage;
-  var accPage;
-  var itemFound;
-  var wishPage;
-  var shopCartPage;
+  let homePage = new HomePage();
+  let loginPage;
+  let accPage;
+  let itemFound;
+  let wishPage;
+  let shopCartPage;
 
   beforeEach(() => {
     cleanCookies();
@@ -57,8 +57,7 @@ describe("Your Store Site: Login User Tests", () => {
     homePage.addToCart(itemFound);
     shopCartPage = homePage.goToShoppingCart(itemFound);
     shopCartPage.clickRemoveList(itemFound);
-    shopCartPage.validateVoidCart()
+    shopCartPage.validateVoidCart();
     cy.task("reportTo", { testCaseId: "YS-13", status: "PASSED" });
   });
-
 });

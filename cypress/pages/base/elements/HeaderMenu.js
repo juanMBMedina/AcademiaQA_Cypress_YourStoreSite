@@ -109,10 +109,9 @@ class HeaderMenu {
     this.validateNavBarSections(this.navBarSectionItems);
   }
 
-  clickOnOption(parentTex, childText = null){
+  clickOnOption(parentTex, childText = null) {
     this.getHeaderItem(parentTex, childText).click();
   }
-
 }
 
 export default HeaderMenu;

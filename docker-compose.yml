@@ -20,15 +20,14 @@ services:
       - sonarqube
     networks:
       - project-network
-    profiles:
-      - base
 
   sonarqube:
     image: sonarqube:lts
     container_name: sonarqube
     restart: always
     environment:
-      SONAR_JDBC_URL: jdbc:postgresql://postgres:5432/sonar
+      # jdbc:postgresql://IP/DB
+      SONAR_JDBC_URL: jdbc:postgresql://db_sonar/sonar
       SONAR_JDBC_USERNAME: sonar
       SONAR_JDBC_PASSWORD: sonar
     ports:
@@ -41,41 +40,52 @@ services:
       - sonarqube_extensions:/opt/sonarqube/extensions
     networks:
       - project-network
-    profiles:
-      - base
 
   postgres:
     image: postgres:13.7  
-    container_name: postgres
+    container_name: db_sonar
     restart: always
+    expose:
+      - 5432
     environment:
       POSTGRES_USER: sonar
       POSTGRES_PASSWORD: sonar
       POSTGRES_DB: sonar
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - project-network
-    profiles:
-      - base
-
 
   sonar-scanner:
-    image: sonarsource/sonar-scanner-cli:latest
+    image: sonar-scanner-js
+    restart: "no"
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile.sonar-scanner
     container_name: sonar-scanner
+    depends_on:
+      - sonarqube
+    volumes:
+      - .:/usr/src
+      - ./sonar-scanner.properties:/opt/sonar-scanner/conf/sonar-scanner.properties
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "sonar-scanner -Dsonar.login=${SONAR_TOKEN}"
+    environment:
+      - SONAR_TOKEN
     networks:
       - project-network
-    volumes:
-      - node-bin:/usr/local/bin
 
   cypress:
     image: cypress/included:13.7.1 
+    restart: "no"
     container_name: cypress
     working_dir: /e2e
     volumes:
-      - node-bin:/usr/local/bin 
-      - ./tests:/e2e
-      - ./cypress-reports:/e2e/cypress/reports
+      - ./cypress/e2e:/e2e
+      - ./cypress/reports:/e2e/cypress/reports
     networks:
       - project-network
 
@@ -97,3 +107,5 @@ networks:
   project-network:
     name: project-network
     driver: bridge
+    ipam:
+      driver: default

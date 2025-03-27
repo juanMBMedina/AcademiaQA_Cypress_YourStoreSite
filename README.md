@@ -129,6 +129,28 @@ The test plan provides detailed information about the testing strategy, scope, a
 
 Contributions are welcome! Feel free to fork this repository, make changes, and submit a pull request.
 
+
+## Running SonarQube Analysis
+
+First check the sonar token in the device, to analyze the project with SonarQube, follow these instructions:
+
+### For Local Environment (Windows)
+- Change the file name to `sonar-project.properties`.
+- Set `sonar.projectBaseDir=.`.
+- Set `project.settings=sonar-scanner.properties`.
+- Run the following command:
+
+```bash
+sonar-scanner.bat -D"sonar.login=%SONAR_TOKEN%" -D"project.settings=sonar-scanner.properties" -D"sonar.projectBaseDir=."
+```
+
+### For Docker Environment
+- Use the default `sonar-project.properties` file.
+- Run the following command inside the container:
+
+```bash
+docker-compose run --rm sonar-scanner
+```
 ## License
 
 This project is licensed under the GNU General Public License v3.0. See the LICENSE file for details.

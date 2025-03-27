@@ -4,11 +4,10 @@ import defaultData from "./itemsPage";
 
 class BasePageWithMenu extends BasePage {
   constructor(endpoint, dataPage = defaultData) {
-
     if (new.target === BasePageWithMenu) {
       throw new Error(ERROR_MSSGS.INST_ERROR(BasePageWithMenu.name));
     }
-    
+
     super(endpoint, dataPage);
     this._rightMenu = new RightMenu(dataPage);
     this.elements = this.defaultElements;

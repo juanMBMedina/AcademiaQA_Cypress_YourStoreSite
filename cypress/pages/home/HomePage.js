@@ -37,7 +37,7 @@ class HomePage extends BasePage {
     this.clickOnLogin();
     this.validateURLWith(URLS.LOGIN);
     return new LoginPage();
-  } 
+  }
 
   goToWishList() {
     this.headerMenu.clickOnOption("Wish List");
@@ -55,15 +55,15 @@ class HomePage extends BasePage {
     itemFound.performComparation();
   }
 
-  addWishList(itemFound){
+  addWishList(itemFound) {
     itemFound.addWishList();
   }
 
-  addToCart(itemFound){
+  addToCart(itemFound) {
     itemFound.addToCart();
   }
 
-  validateItem(itemFound){
+  validateItem(itemFound) {
     itemFound.validateItem();
   }
 
