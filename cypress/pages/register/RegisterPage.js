@@ -21,7 +21,7 @@ class RegisterPage extends BasePageWithMenu {
         cy.get(".radio-inline").find("input").eq(!option).click(),
       privacityCheckbox: () => cy.get("[type='checkbox']"),
       submitButton: () => cy.get("[type='submit']"),
-      form: () => cy.get(".form-horizontal")
+      form: () => cy.get(".form-horizontal"),
     };
   }
 
@@ -34,13 +34,13 @@ class RegisterPage extends BasePageWithMenu {
     writeText(user.password, this.elements.inputConfirmPassword());
     this.elements.suscribeRadioButton(user.suscribe);
 
-    if(user.privacity) this.elements.privacityCheckbox().check();
+    if (user.privacity) this.elements.privacityCheckbox().check();
     else this.elements.privacityCheckbox().uncheck();
-    
+
     this.elements.submitButton().click();
   }
 
-  validateFormIsVisible(){
+  validateFormIsVisible() {
     this.validateNavBar();
     this.validateRigthBar();
     this.elements.inputName().should("be.visible");
@@ -54,25 +54,23 @@ class RegisterPage extends BasePageWithMenu {
     this.elements.submitButton().should("be.visible");
   }
 
-  validateMssgNewUser(){
+  validateMssgNewUser() {
     this.validateMssg(PAGE_MSSGS.REGISTER_PAGE.SUCCES_REGISTER);
   }
 
-  validateMssgUserExist(){
+  validateMssgUserExist() {
     this.validateMssg(PAGE_MSSGS.REGISTER_PAGE.USER_EXIST);
   }
 
-  validateMssgWithoutPrivacity(){
+  validateMssgWithoutPrivacity() {
     this.validateMssg(PAGE_MSSGS.REGISTER_PAGE.WITHOUT_PRIVACITY);
   }
 
-  validateMssgWithoutParam(user){
-    getEmptyFields(user).forEach(text =>{
+  validateMssgWithoutParam(user) {
+    getEmptyFields(user).forEach((text) => {
       this.validateMssg(PAGE_MSSGS.REGISTER_PAGE.WITOUHT_PARAMS[text]);
     });
-    
   }
-
 }
 
 export default RegisterPage;

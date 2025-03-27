@@ -1,11 +1,9 @@
 import BasePageWithMenu from "../base/BasePageWithMenu";
-import { URLS } from "../../support/constants";
-import { PAGE_MSSGS } from "../../support/constants";
+import { PAGE_MSSGS, URLS } from "../../support/constants";
 import HomePage from "../home/HomePage";
 
-class LoginPage extends BasePageWithMenu{
-
-  constructor(){
+class LoginPage extends BasePageWithMenu {
+  constructor() {
     super(URLS.LOGOUT);
     this.elements = this.defaultElements;
   }
@@ -13,7 +11,7 @@ class LoginPage extends BasePageWithMenu{
   get defaultElements() {
     return {
       ...super.defaultElements,
-      continueButton: () => cy.get(".btn-primary")    
+      continueButton: () => cy.get(".btn-primary"),
     };
   }
 
@@ -22,14 +20,13 @@ class LoginPage extends BasePageWithMenu{
     return new HomePage();
   }
 
-  validateSuccesLogout(){
+  validateSuccesLogout() {
     this.validateURL();
     this.validateNavBar();
     this.validateRigthBar();
     this.elements.continueButton().should("be.visible");
     this.validateMssg(PAGE_MSSGS.LOGOUT_PAGE.SUCCES_LOGUT);
   }
-
 }
 
 export default LoginPage;

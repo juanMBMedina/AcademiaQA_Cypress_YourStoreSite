@@ -35,7 +35,6 @@ class RightMenu {
       this.elements.itemMenuBar(text).should("be.visible");
     });
   }
-
 }
 
 export default RightMenu;

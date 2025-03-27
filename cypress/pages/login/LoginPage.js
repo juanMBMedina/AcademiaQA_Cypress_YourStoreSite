@@ -1,8 +1,7 @@
 import BasePageWithMenu from "../base/BasePageWithMenu";
 import AccountPage from "../account/AccountPage";
 import { writeText } from "../../support/utils";
-import { URLS } from "../../support/constants";
-import { PAGE_MSSGS } from "../../support/constants";
+import { PAGE_MSSGS, URLS } from "../../support/constants";
 
 class LoginPage extends BasePageWithMenu {
   constructor() {

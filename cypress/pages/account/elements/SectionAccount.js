@@ -34,12 +34,11 @@ class SectionAccount {
 
   validateContent() {
     this.elements.sectionsContent().should("be.visible");
-    this.elements.titleLabel(this.title).should("be.visible"); 
+    this.elements.titleLabel(this.title).should("be.visible");
     this.links.forEach((text) => {
       this.elements.linkMenu(text).should("be.visible");
     });
   }
-
 }
 
 export default SectionAccount;

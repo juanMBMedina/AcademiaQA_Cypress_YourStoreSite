@@ -1,13 +1,19 @@
 {
   "singleNavItems": ["Wish List", "Shopping Cart", "Checkout"],
-  "sectionNavItems":[
+  "sectionNavItems": [
     {
       "title": "Currency",
       "elements": ["Euro", "Pound Sterling", "US Dollar"]
     },
     {
-      "title":"My Account",
-      "elements": ["My Account", "Order History","Transactions","Downloads","Logout"]
+      "title": "My Account",
+      "elements": [
+        "My Account",
+        "Order History",
+        "Transactions",
+        "Downloads",
+        "Logout"
+      ]
     }
   ],
   "columnRightItems": [
@@ -25,5 +31,4 @@
     "Newsletter",
     "Logout"
   ]
-  
 }

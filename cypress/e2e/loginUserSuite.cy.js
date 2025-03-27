@@ -2,13 +2,13 @@ import HomePage from "../pages/home/HomePage";
 import succesUserLogin from "../fixtures/login/successLoginUser.json";
 import failureUserLogin from "../fixtures/login/failureLoginUser.json";
 import failureUsers from "../fixtures/login/failureLoginWithEmptyDataUser.json";
-import {cleanCookies} from "../support/utils";
+import { cleanCookies } from "../support/utils";
 
 describe("Your Store Site: Login User Tests", () => {
-  var homePage = new HomePage();
-  var loginPage;
-  var accPage;
-  var logoutPage;
+  let homePage = new HomePage();
+  let loginPage;
+  let accPage;
+  let logoutPage;
 
   beforeEach(() => {
     cleanCookies();
@@ -17,12 +17,11 @@ describe("Your Store Site: Login User Tests", () => {
     homePage.validateNavBar();
     loginPage = homePage.goToLoginPage();
     loginPage.validateFormIsVisible();
-
   });
 
   it("YS-5 - Validate the correct functioning of the login for a user when their data is correct", () => {
     accPage = loginPage.fillLoginForm(succesUserLogin);
-   
+
     accPage.validateLoginSuccess();
     cy.task("reportTo", { testCaseId: "YS-5", status: "PASSED" });
   });
@@ -34,7 +33,7 @@ describe("Your Store Site: Login User Tests", () => {
   });
 
   it("YS-7 - Validate the functionality of the login process when the user's credentials are void", () => {
-    failureUsers.forEach((user) =>{
+    failureUsers.forEach((user) => {
       loginPage.fillLoginForm(user);
       loginPage.validateFailureLogin();
     });
@@ -46,9 +45,8 @@ describe("Your Store Site: Login User Tests", () => {
     accPage.validateLoginSuccess();
     logoutPage = accPage.performLogout();
     logoutPage.validateSuccesLogout();
-    homePage = logoutPage. finishLogout();
+    homePage = logoutPage.finishLogout();
     homePage.validateURL();
     cy.task("reportTo", { testCaseId: "YS-8", status: "PASSED" });
   });
-
 });

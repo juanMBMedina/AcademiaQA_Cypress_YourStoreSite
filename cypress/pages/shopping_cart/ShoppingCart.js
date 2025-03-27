@@ -21,7 +21,7 @@ class ShoppingCart extends BasePage {
       deleteItemButton: (text) =>
         this.elements.rowItem(text).get("[data-original-title='Remove']"),
       finalValue: (text) =>
-        this.elements.rowItem(text).get(".text-right").eq(2)
+        this.elements.rowItem(text).get(".text-right").eq(2),
     };
   }
 

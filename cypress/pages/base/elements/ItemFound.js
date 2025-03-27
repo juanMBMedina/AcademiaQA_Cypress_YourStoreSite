@@ -1,5 +1,4 @@
-import { ERROR_MSSGS } from "../../../support/constants";
-import { PAGE_MSSGS } from "../../../support/constants";
+import { ERROR_MSSGS, PAGE_MSSGS } from "../../../support/constants";
 
 class ItemFound {
   constructor(itemName) {
@@ -92,7 +91,6 @@ class ItemFound {
       .then((text) => {
         this.price = text.split("\n")[0].trim(); // ✅ Validar para ReExp
       });
-      
   }
 
   addToCart() {
