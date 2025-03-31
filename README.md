@@ -136,7 +136,10 @@ First check the sonar token in the device, to analyze the project with SonarQube
 
 ### For Local Environment (Windows)
 - Change the file name to `sonar-project.properties`.
+- Set `sonar.projectName=ProjectName`.
+- Set `sonar.projectKey=ProjectKey`.
 - Set `sonar.projectBaseDir=.`.
+- Set `sonar.host.url=http://sonarqubeIp:9000`.
 - Set `project.settings=sonar-scanner.properties`.
 - Run the following command:
 
