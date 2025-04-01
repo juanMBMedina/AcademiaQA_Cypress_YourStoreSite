@@ -136,10 +136,7 @@ First check the sonar token in the device, to analyze the project with SonarQube
 
 ### For Local Environment (Windows)
 - Change the file name to `sonar-project.properties`.
-- Set `sonar.projectName=ProjectName`.
-- Set `sonar.projectKey=ProjectKey`.
 - Set `sonar.projectBaseDir=.`.
-- Set `sonar.host.url=http://sonarqubeIp:9000`.
 - Set `project.settings=sonar-scanner.properties`.
 - Run the following command:
 
@@ -152,7 +149,7 @@ sonar-scanner.bat -D"sonar.login=%SONAR_TOKEN%" -D"project.settings=sonar-scanne
 - Run the following command inside the container:
 
 ```bash
-docker-compose run --rm sonar-scanner
+docker-compose -f docker-compose.scanner.yml run --rm sonar-scanner
 ```
 ## License
 
