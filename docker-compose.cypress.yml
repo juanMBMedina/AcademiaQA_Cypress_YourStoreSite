@@ -1,0 +1,10 @@
+services:
+  cypress:
+    image: cypress/included:13.7.1
+    restart: "no"
+    container_name: cypress
+    working_dir: /e2e
+    volumes:
+      - .:/e2e
+    networks:
+      - project-network

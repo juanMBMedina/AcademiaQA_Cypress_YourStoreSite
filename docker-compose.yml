@@ -9,10 +9,11 @@ services:
     privileged: true
     user: root
     ports:
-      - "8080:8080"
+      - "8080:8080" 
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
+      - sonar_scanner_src:/var/jenkins_home/tmp/sonar-scanner
       - /var/run/docker.sock:/var/run/docker.sock
     entrypoint: [ "/bin/bash", "-c", "/var/jenkins_home/setup-ssh.sh || echo 'SSH setup failed, continuing...' && /usr/bin/tini -- /usr/local/bin/jenkins.sh" ]
     depends_on:
@@ -56,40 +57,6 @@ services:
     networks:
       - project-network
 
-  sonar-scanner:
-    image: sonar-scanner-js
-    restart: "no"
-    build:
-      context: .
-      dockerfile: ./dockerfiles/Dockerfile.sonar-scanner
-    container_name: sonar-scanner
-    depends_on:
-      - sonarqube
-    volumes:
-      - .:/usr/src
-      - ./sonar-scanner.properties:/opt/sonar-scanner/conf/sonar-scanner.properties
-    command:
-      - "/bin/sh"
-      - "-c"
-      - "sonar-scanner -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectName=${PROJECT_NAME} -Dsonar.projectKey=${PROJECT_KEY} -Dsonar.host.url=${SONAR_URL}"
-    environment:
-      - SONAR_TOKEN
-      - PROJECT_NAME
-      - PROJECT_KEY
-      - SONAR_URL
-    networks:
-      - project-network
-
-  cypress:
-    image: cypress/included:13.7.1
-    restart: "no"
-    container_name: cypress
-    working_dir: /e2e
-    volumes:
-      - .:/e2e
-    networks:
-      - project-network
-
 volumes:
   jenkins_home:
     name: jenkins_home
@@ -101,8 +68,8 @@ volumes:
     name: sonarqube_extensions
   postgres_data:
     name: postgres_data
-  node-bin:
-    name: node-bin
+  sonar_scanner_src:
+    name: sonar_scanner_src
 
 networks:
   project-network:
