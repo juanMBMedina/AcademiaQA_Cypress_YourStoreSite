@@ -13,24 +13,35 @@ The main objective of this project is to demonstrate the implementation of a com
 
 ## File Structure
 ```
-AcademiaQA_Cypress_YourStoreSite/
-├── LICENSE
-├── README.md
-├── cypress
-│   ├── downloads
-│   ├── e2e
-│   │   ├── AddingToCartSuite.cy.js
-│   │   ├── loginUserSuite.cy.js
-│   │   └── registerUserSuite.cy.js
-│   ├── fixtures
-│   ├── pages
-│   ├── reports
-│   ├── support
-│   └── videos
-├── cypress.config.js
-├── package-lock.json
-├── package.json
-└── test_plan
+📦 YourStore-Cypress-TestLab
+├── 📜 LICENSE
+├── 📖 README.md
+├── 🏗️ cypress/
+│   ├── 🔹 e2e/
+│   │   ├── 🛒 addingToCartSuite.cy.js
+│   │   ├── 🔐 loginUserSuite.cy.js
+│   │   ├── 📝 registerUserSuite.cy.js
+│   ├── 📂 fixtures/
+│   ├── 📂 pages/
+│   │   ├── 🏠 home/
+│   │   ├── 🔐 login/
+│   │   ├── 🛍️ shopping_cart/
+│   ├── 📂 reports/
+│   ├── 📂 screenshots/
+│   ├── 📂 support/
+│   ├── 🎥 videos/
+├── ⚙️ cypress.config.js
+├── 📂 dockerfiles/
+│   ├── 🐳 Dockerfile.jenkins
+│   ├── 🐳 Dockerfile.sonar-scanner
+├── 📂 pipelines/
+│   ├── 📜 Jenkinsfile_git
+│   ├── 📜 Jenkinsfile_sonar_scanner
+├── 🛠️ docker-compose.yml
+├── 📄 sonar-scanner.properties
+├── 📊 test_plan/
+│   ├── 📑 Data Test Plan.xlsx
+│   ├── 📑 Test Plan.xlsx
 ```
 
 ## Prerequisites
@@ -64,16 +75,16 @@ npm install cypress --save-dev
 Clone this repository:
 ```bash
 # HTTPS
-git clone https://github.com/juanMBMedina/AcademiaQA_Cypress_YourStoreSite.git
+git clone https://github.com/juanMBMedina/YourStore-Cypress-TestLab.git
 
 # SSH
-git clone git@github.com:juanMBMedina/AcademiaQA_Cypress_YourStoreSite.git
+git clone git@github.com:juanMBMedina/YourStore-Cypress-TestLab.git
 ```
 
 Navigate to the project directory:
 
 ```bash
-cd AcademiaQA_Cypress_YourStoreSite
+cd YourStore-Cypress-TestLab
 ```
 
 Install the dependencies:
