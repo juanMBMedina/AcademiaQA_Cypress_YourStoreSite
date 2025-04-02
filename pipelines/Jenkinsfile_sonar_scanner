@@ -10,7 +10,6 @@ def validateExist(directory, mssg='The element ${directory} doesn\'t exist.'){
     }
 }
 
-
 def copyFiles(originDir, finalDir){
     validateExist(originDir)
     validateExist(finalDir)
@@ -59,14 +58,13 @@ pipeline {
             }
         }
         
-        stage('Validating Temporal Directory ${SONAR_SCANNER_TEMP_DIR}') {
+        stage('Validating Temporal Directory') {
             steps {
                 script {
                     echo "Validating if the temporal directory: ${SONAR_SCANNER_TEMP_DIR} is empty"
                     validateExist("${SONAR_SCANNER_TEMP_DIR}", "sonar-scanner temporal directory doesn't exist")
                     dir(SONAR_SCANNER_TEMP_DIR) {
                         echo "Cleaning temporal directory"
-                        sh "rm -rf ${SONAR_SCANNER_TEMP_DIR}/*"
                         copyFiles(REPO_DIR, SONAR_SCANNER_TEMP_DIR)
                     }
                 }
@@ -78,7 +76,7 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                         echo "Running sonar-scanner using Docker for ${sonarProps.projectName}"
-                        dir(SONAR_SCANNER_TEMP_DIR) {
+                        dir("${SONAR_SCANNER_TEMP_DIR}") {
                             echo "Running sonar-scanner inside ${SONAR_SCANNER_TEMP_DIR}"
 
                             sh '''
@@ -87,13 +85,10 @@ pipeline {
                             '''
                         }
                     }
+                    dir("${SONAR_SCANNER_TEMP_DIR}"){
+                            sh "rm -r *"
+                    }
                 }
-            }
-        }
-
-        stage('Cleaning temporal directory: ${SONAR_SCANNER_TEMP_DIR}'){
-            dir(SONAR_SCANNER_TEMP_DIR) {
-            sh "rm -rf ${SONAR_SCANNER_TEMP_DIR}/*"
             }
         }
     }
