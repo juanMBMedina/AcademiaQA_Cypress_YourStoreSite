@@ -9,18 +9,21 @@ pipeline {
 
     stages {
         stage('Clone or Update Repository') {
-           load '../scan_code/Jenkinsfile_scan_repository'
-           scanProject(PROJECT_NAME, REPO_URL, DEFAULT_BRANCH){
-        }    
+            steps {
+                script {
+                    load '../scan_code/Jenkinsfile_scan_repository'
+                    scanProject(PROJECT_NAME, REPO_URL, DEFAULT_BRANCH)
+                }
+            }
+        }
     }
 
-        post {
-            success {
-                echo "Scan completed successfully!"
-            }
-            failure {
-                echo "Scan failed!"
-            }
+    post {
+        success {
+            echo "Scan completed successfully!"
+        }
+        failure {
+            echo "Scan failed!"
         }
     }
 }

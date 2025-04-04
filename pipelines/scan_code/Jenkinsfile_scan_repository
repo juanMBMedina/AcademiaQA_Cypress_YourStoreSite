@@ -7,6 +7,7 @@ def scanProject(projectName, repoUrl, defaultBranch='main') {
         }
 
         stages {
+            
             stage('Clone Repository') {
                 steps {
                     script {
@@ -19,7 +20,7 @@ def scanProject(projectName, repoUrl, defaultBranch='main') {
             stage('Running SonarQube Checking') {
                 steps {
                     script {
-                        def repoDir = "${BASE_DIR}/${projectName}"
+                        def repoDir = '${BASE_DIR}/${projectName}'
                         load '../run_sonar_scanner/Jenkinsfile_sonar_scanner'
                         runSonarScanner(repoDir)
                     }
