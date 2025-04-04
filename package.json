@@ -8,7 +8,6 @@
     "mochawesome-report-generator": "^6.2.0"
   },
   "scripts": {
-    "clean-cache": "npx cypress cache prune && echo 'Cypress version:' && npx cypress --version",
     "clean-file": "rm -rf cypress/screenshots/* cypress/videos/* cypress/reports/*",
     "gui-testing": "npx cypress open",
     "run-suite": "npx cypress run --spec 'cypress/e2e/$SUITE.cy.js' --browser $BROWSER"
