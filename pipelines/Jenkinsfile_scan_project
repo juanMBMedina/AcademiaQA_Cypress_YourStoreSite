@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        PROJECT_NAME = 'defaultProject'
-        REPO_URL = 'git@github.com:user/repo.git'
+        PROJECT_NAME = 'YourStore-Cypress-TestLab'
+        REPO_URL = 'git@github.com:juanMBMedina/YourStore-Cypress-TestLab.git'
         DEFAULT_BRANCH = 'main'
     }
 
