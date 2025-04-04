@@ -1,0 +1,39 @@
+def scanProject(projectName, repoUrl, defaultBranch='main') {
+    pipeline {
+        agent any
+
+        environment {
+            BASE_DIR = '/var/jenkins_home/repos'  // Directorio base para clonar repositorios
+        }
+
+        stages {
+            stage('Clone Repository') {
+                steps {
+                    script {
+                        load '../clone_repository/Jenkinsfile_git'
+                        cloneRepository(projectName, repoUrl, BASE_DIR, defaultBranch)
+                    }
+                }
+            }
+
+            stage('Running SonarQube Checking') {
+                steps {
+                    script {
+                        def repoDir = "${BASE_DIR}/${projectName}"
+                        load '../run_sonar_scanner/Jenkinsfile_sonar_scanner'
+                        runSonarScanner(repoDir)
+                    }
+                }
+            }
+        }
+
+        post {
+            success {
+                echo "Scan completed successfully!"
+            }
+            failure {
+                echo "Scan failed!"
+            }
+        }
+    }
+}

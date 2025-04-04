@@ -21,7 +21,6 @@ describe("Your Store Site: Login User Tests", () => {
 
   it("YS-5 - Validate the correct functioning of the login for a user when their data is correct", () => {
     accPage = loginPage.fillLoginForm(succesUserLogin);
-
     accPage.validateLoginSuccess();
     cy.task("reportTo", { testCaseId: "YS-5", status: "PASSED" });
   });
