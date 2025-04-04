@@ -1,0 +1,46 @@
+def cloneRepository(projectName, repoUrl, baseDir, defaultBranch) {
+    pipeline {
+        agent any
+
+        stages {
+            stage('Clone or Update Repository') {
+                steps {
+                    script {
+                        def projectDir = "${baseDir}/${projectName}"
+                        echo "Cloning repository from: ${repoUrl}"
+                        echo "Using branch: ${defaultBranch}"
+                        echo "Clone directory: ${projectDir}"
+
+                        // Create the directory if it doesn't exist
+                        sh "mkdir -p ${projectDir}"
+
+                        // Change to the directory and handle cloning or updating the repo
+                        dir(projectDir) {
+                            if (!fileExists("${projectDir}/.git")) {
+                                echo "Repository isn't cloned ..."
+                                sh "git clone -b ${defaultBranch} ${repoUrl} ${projectDir}"
+                            } else {
+                                echo "Repository already exists, updating..."
+                                sh """
+                                    git reset --hard
+                                    git clean -fd
+                                    git pull origin ${defaultBranch}
+                                """
+                            }
+                            sh "ls -ltr ${projectDir}"
+                        }
+                    }
+                }
+            }
+        }
+
+        post {
+            success {
+                echo "Repository successfully cloned or updated."
+            }
+            failure {
+                echo "Error occurred while cloning or updating the repository."
+            }
+        }
+    }
+}
