@@ -11,7 +11,7 @@ def scanProject(projectName, repoUrl, defaultBranch='main') {
             stage('Clone Repository') {
                 steps {
                     script {
-                        load '../clone_repository/Jenkinsfile_git'
+                        load './pipelines/clone_repository/Jenkinsfile_git'
                         cloneRepository(projectName, repoUrl, BASE_DIR, defaultBranch)
                     }
                 }
@@ -21,7 +21,7 @@ def scanProject(projectName, repoUrl, defaultBranch='main') {
                 steps {
                     script {
                         def repoDir = '${BASE_DIR}/${projectName}'
-                        load '../run_sonar_scanner/Jenkinsfile_sonar_scanner'
+                        load './pipelines/clone_repository/Jenkinsfile_git'
                         runSonarScanner(repoDir)
                     }
                 }

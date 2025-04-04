@@ -11,7 +11,7 @@ pipeline {
         stage('Clone or Update Repository') {
             steps {
                 script {
-                    load 'scan_code/Jenkinsfile_scan_repository'
+                    load './pipelines/scan_code/Jenkinsfile_scan_repository'
                     scanProject(PROJECT_NAME, REPO_URL, DEFAULT_BRANCH)
                 }
             }
