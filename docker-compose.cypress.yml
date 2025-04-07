@@ -1,11 +1,13 @@
 services:
   cypress:
-    image: node:22 
     container_name: cypress
+    image: cypress
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile.cypress
     working_dir: /e2e
-    command: /bin/sh -c "npm install"
     volumes:
-      - .:/e2e
+      - cypress_src:/e2e
     environment:
       SUITE: loginUserSuite
       BROWSER: chrome
