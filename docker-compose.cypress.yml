@@ -3,7 +3,7 @@ services:
     container_name: cypress
     image: cypress
     build:
-      context: .
+      context: . 
       dockerfile: ./dockerfiles/Dockerfile.cypress
     working_dir: /e2e
     volumes:

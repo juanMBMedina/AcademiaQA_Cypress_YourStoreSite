@@ -1,9 +1,4 @@
-FROM cypress/browsers:latest
-
+FROM cypress/included:14.1.0
 WORKDIR /e2e
-
 COPY package*.json ./
-
-RUN npm install
-
-RUN npx cypress install
+RUN npm cache clean --force && npm install
