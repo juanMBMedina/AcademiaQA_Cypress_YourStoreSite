@@ -7,6 +7,10 @@ services:
     environment:
       SUITE: loginUserSuite
       BROWSER: chrome
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "npm install"
     volumes:
       - .:/e2e
     networks:
@@ -14,4 +18,4 @@ services:
 
 networks:
   project-network:
-    driver: bridge
+    external: true

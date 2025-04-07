@@ -61,13 +61,13 @@ pipeline {
                             if [ "${params.SUITE}" = "all" ]; then
                                 docker-compose -f docker-compose.cypress.yml run --rm \\
                                     -e BROWSER=$BROWSER \\
-                                    cypress sh -c "npm install && npm run run-all"
+                                    cypress sh -c "npm run run-all"
                             else
                                 export SUITE=${params.SUITE}
                                 docker-compose -f docker-compose.cypress.yml run --rm \\
                                     -e SUITE=$SUITE \\
                                     -e BROWSER=$BROWSER \\
-                                    cypress sh -c "npm install && npm run run-suite"
+                                    cypress sh -c "npm run run-suite"
                             fi
                         """
                     }
