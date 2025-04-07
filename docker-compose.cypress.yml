@@ -1,18 +1,14 @@
 services:
   cypress:
-    image: cypress/included:13.7.1
-    restart: "no"
+    image: node:22 
     container_name: cypress
     working_dir: /e2e
+    command: /bin/sh -c "npm install"
+    volumes:
+      - .:/e2e
     environment:
       SUITE: loginUserSuite
       BROWSER: chrome
-    command:
-      - "/bin/sh"
-      - "-c"
-      - "npm install"
-    volumes:
-      - .:/e2e
     networks:
       - project-network
 
