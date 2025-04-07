@@ -4,6 +4,9 @@ services:
     restart: "no"
     container_name: cypress
     working_dir: /e2e
+    environment:
+      SUITE: loginUserSuite
+      BROWSER: chrome
     volumes:
       - .:/e2e
     networks:
