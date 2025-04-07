@@ -71,6 +71,8 @@ volumes:
     name: postgres_data
   sonar_scanner_src:
     name: sonar_scanner_src
+  cypress_src:
+    name: cypress_src
 
 networks:
   project-network:
