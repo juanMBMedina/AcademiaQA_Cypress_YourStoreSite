@@ -1,0 +1,89 @@
+pipeline {
+    agent any
+
+    environment {
+        BASE_DIR = 'workspace'
+    }
+
+    parameters {
+        choice(
+            name: 'SUITE', 
+            choices: ['all', 'addingToCartSuite', 'loginUserSuite', 'registerUserSuite'], 
+            description: 'Select the test suite to run'
+        )
+        choice(
+            name: 'BROWSER', 
+            choices: ['chrome', 'edge', 'firefox', 'electron'], 
+            description: 'Select the browser for test execution'
+        )
+        string(
+            name: 'PROJECT_NAME', 
+            defaultValue: 'YourStore-Cypress-TestLab', 
+            description: 'Project base directory name'
+        )
+        string(
+            name: 'REPO_URL', 
+            defaultValue: 'git@github.com:juanMBMedina/YourStore-Cypress-TestLab.git', 
+            description: 'SSH repository URL'
+        )
+        string(
+            name: 'DEFAULT_BRANCH', 
+            defaultValue: 'main', 
+            description: 'Repository branch to checkout'
+        )
+    }
+
+    stages {
+
+        stage('Clone Repository') {
+            steps {
+                script {
+                    build(
+                        job: 'GetRepository',
+                        parameters: [
+                            string(name: 'PROJECT_NAME', value: params.PROJECT_NAME),
+                            string(name: 'REPO_URL', value: params.REPO_URL),
+                            string(name: 'CLONE_DIR', value: BASE_DIR),
+                            string(name: 'BRANCH', value: params.DEFAULT_BRANCH)
+                        ]
+                    )
+                }
+            }
+        }
+
+        stage('Prepare and Run Cypress') {
+            steps {
+                dir("${BASE_DIR}/${PROJECT_NAME}") {
+                    script {
+                        sh """
+                            echo "Installing project dependencies..."
+                            npm install
+
+                            echo "Running test suite: ${params.SUITE} on browser: ${params.BROWSER}"
+
+                            export BROWSER=${params.BROWSER}
+
+                            if [ "${params.SUITE}" = "all" ]; then
+                                docker-compose -f docker-compose.cypress.yml run --rm \\
+                                    -e BROWSER=\$BROWSER \\
+                                    cypress npm run run-all
+                            else
+                                export SUITE=${params.SUITE}
+                                docker-compose -f docker-compose.cypress.yml run --rm \\
+                                    -e SUITE=\$SUITE \\
+                                    -e BROWSER=\$BROWSER \\
+                                    cypress npm run run-suite
+                            fi
+                        """
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+    }
+}
