@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        BASE_DIR = 'workspace'
+        BASE_DIR = '/var/jenkins_home/repos'
     }
 
     parameters {
@@ -56,23 +56,18 @@ pipeline {
                 dir("${BASE_DIR}/${PROJECT_NAME}") {
                     script {
                         sh """
-                            echo "Installing project dependencies..."
-                            npm install
-
                             echo "Running test suite: ${params.SUITE} on browser: ${params.BROWSER}"
-
                             export BROWSER=${params.BROWSER}
-
                             if [ "${params.SUITE}" = "all" ]; then
                                 docker-compose -f docker-compose.cypress.yml run --rm \\
-                                    -e BROWSER=\$BROWSER \\
-                                    cypress npm run run-all
+                                    -e BROWSER=$BROWSER \\
+                                    cypress sh -c "npm install && npm run run-all"
                             else
                                 export SUITE=${params.SUITE}
                                 docker-compose -f docker-compose.cypress.yml run --rm \\
-                                    -e SUITE=\$SUITE \\
-                                    -e BROWSER=\$BROWSER \\
-                                    cypress npm run run-suite
+                                    -e SUITE=$SUITE \\
+                                    -e BROWSER=$BROWSER \\
+                                    cypress sh -c "npm install && npm run run-suite"
                             fi
                         """
                     }
@@ -82,6 +77,12 @@ pipeline {
     }
 
     post {
+        success {
+            echo 'Tests ran successfully. Report has been generated.'
+        }
+        failure {
+            echo 'Tests failed. Please review the console output and the generated report.'
+        }
         always {
             echo 'Pipeline execution completed.'
         }

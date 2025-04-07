@@ -11,3 +11,7 @@ services:
       - .:/e2e
     networks:
       - project-network
+
+networks:
+  project-network:
+    driver: bridge
