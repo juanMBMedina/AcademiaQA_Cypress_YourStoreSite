@@ -101,7 +101,7 @@ pipeline {
             steps {
                 dir(CYPRESS_DIR) {
                     script {
-                        echo "Running Cypress tests for suite: ${params.SUITE} on browser: ${params.BROWSER}"
+                        echo "Running Cypress tests for suite: ${params.SUITE} on browser: ${params.BROWSER} check file ./suites.json"
                         
                         sh """
                         docker-compose -f docker-compose.cypress.yml run --rm cypress ./run-suite.sh ${params.SUITE} ${params.BROWSER} 
