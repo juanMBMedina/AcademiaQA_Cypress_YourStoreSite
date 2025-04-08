@@ -19,4 +19,4 @@ npx cypress run \
   --reporter mochawesome \
   --reporter-options "reportDir=$SUITE_DIR,overwrite=true,html=true,json=true"
 
-echo "$SUITE_DIR" > lastReportFolder.txt
+echo "${SUITE}-${TIMESTAMP}" > lastReportFolder.txt
