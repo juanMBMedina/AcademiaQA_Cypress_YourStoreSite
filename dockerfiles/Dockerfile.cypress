@@ -2,3 +2,9 @@ FROM cypress/included:14.1.0
 WORKDIR /e2e
 COPY package*.json ./
 RUN npm cache clean --force && npm install
+
+COPY run-suite.sh /e2e/run-suite.sh
+RUN chmod +x /e2e/run-suite.sh
+
+ENTRYPOINT ["/bin/bash"]
+CMD ["-c", "echo 'Contenedor listo. Usa run-suite.sh para correr las pruebas.'"]
