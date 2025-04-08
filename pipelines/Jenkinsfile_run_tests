@@ -1,34 +1,65 @@
+def validateExist(directory, mssg = "The element \${directory} doesn't exist.") {
+    if (!fileExists(directory)) {
+        error mssg
+    }
+}
+
+def copyFiles(originDir, finalDir) {
+    validateExist(originDir)
+    validateExist(finalDir)
+    sh "cp -r ${originDir}/* ${finalDir}"
+}
+
+def extractPropertyValue(file, property) {
+    return sh(script: """
+        grep "^${property}=" ${file} | sed "s/^${property}=//"
+    """, returnStdout: true).trim()
+}
+
+def cleanCypressTempDir(){
+    dir(CYPRESS_DIR) {
+        script {
+            echo "Cleaning Cypress temporary directory, excluding node_modules"
+            sh """
+                find . -mindepth 1 -not -path './node_modules*' -exec rm -rf {} +
+            """
+        }
+    }
+}
+
 pipeline {
     agent any
 
     environment {
         BASE_DIR = '/var/jenkins_home/repos'
+        CYPRESS_DIR = '/var/jenkins_home/tmp/cypress'
+        REPORTS_DIR = '/var/jenkins_home/reports'
     }
 
     parameters {
         choice(
-            name: 'SUITE', 
-            choices: ['all', 'addingToCartSuite', 'loginUserSuite', 'registerUserSuite'], 
+            name: 'SUITE',
+            choices: ['AllSuites', 'addingToCartSuite', 'loginUserSuite', 'registerUserSuite'],
             description: 'Select the test suite to run'
         )
         choice(
-            name: 'BROWSER', 
-            choices: ['chrome', 'edge', 'firefox', 'electron'], 
+            name: 'BROWSER',
+            choices: ['chrome', 'edge', 'firefox', 'electron'],
             description: 'Select the browser for test execution'
         )
         string(
-            name: 'PROJECT_NAME', 
-            defaultValue: 'YourStore-Cypress-TestLab', 
+            name: 'PROJECT_NAME',
+            defaultValue: 'YourStore-Cypress-TestLab',
             description: 'Project base directory name'
         )
         string(
-            name: 'REPO_URL', 
-            defaultValue: 'git@github.com:juanMBMedina/YourStore-Cypress-TestLab.git', 
+            name: 'REPO_URL',
+            defaultValue: 'git@github.com:juanMBMedina/YourStore-Cypress-TestLab.git',
             description: 'SSH repository URL'
         )
         string(
-            name: 'DEFAULT_BRANCH', 
-            defaultValue: 'main', 
+            name: 'DEFAULT_BRANCH',
+            defaultValue: 'main',
             description: 'Repository branch to checkout'
         )
     }
@@ -38,53 +69,84 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    build(
-                        job: 'GetRepository',
-                        parameters: [
-                            string(name: 'PROJECT_NAME', value: params.PROJECT_NAME),
-                            string(name: 'REPO_URL', value: params.REPO_URL),
-                            string(name: 'CLONE_DIR', value: BASE_DIR),
-                            string(name: 'BRANCH', value: params.DEFAULT_BRANCH)
-                        ]
-                    )
+                    build job: 'GetRepository', parameters: [
+                        string(name: 'PROJECT_NAME', value: params.PROJECT_NAME),
+                        string(name: 'REPO_URL', value: params.REPO_URL),
+                        string(name: 'CLONE_DIR', value: BASE_DIR),
+                        string(name: 'BRANCH', value: params.DEFAULT_BRANCH)
+                    ]
+                }
+            }
+        }
+        
+        stage('First: Clean Temporary Directory') {
+            steps {
+                cleanCypressTempDir()
+            }
+        }
+
+        stage('Prepare Cypress Directory') {
+            steps {
+                script {
+                    def projectDir = "${BASE_DIR}/${PROJECT_NAME}"
+                    echo "Checking if Cypress temporary directory exists: ${CYPRESS_DIR}"
+                    validateExist(CYPRESS_DIR, "Cypress temporary directory doesn't exist")
+                    echo "Copying project files to Cypress temporary directory"
+                    copyFiles(projectDir, CYPRESS_DIR)
                 }
             }
         }
 
-        stage('Prepare and Run Cypress') {
+        stage('Run Cypress Tests in Docker') {
             steps {
-                dir("${BASE_DIR}/${PROJECT_NAME}") {
+                dir(CYPRESS_DIR) {
                     script {
+                        echo "Running Cypress tests for suite: ${params.SUITE} on browser: ${params.BROWSER}"
+                        
                         sh """
-                            echo "Running test suite: ${params.SUITE} on browser: ${params.BROWSER}"
-                            export BROWSER=${params.BROWSER}
-                            if [ "${params.SUITE}" = "all" ]; then
-                                docker-compose -f docker-compose.cypress.yml run --rm \\
-                                    -e BROWSER=$BROWSER \\
-                                    cypress sh -c "npm run run-all"
-                            else
-                                export SUITE=${params.SUITE}
-                                docker-compose -f docker-compose.cypress.yml run --rm \\
-                                    -e SUITE=$SUITE \\
-                                    -e BROWSER=$BROWSER \\
-                                    cypress sh -c "npm run run-suite"
-                            fi
+                        docker-compose -f docker-compose.cypress.yml run --rm cypress ./run-suite.sh ${params.SUITE} ${params.BROWSER} 
                         """
                     }
                 }
             }
         }
+        stage('Store Cypress Reports') {
+            steps {
+                dir(CYPRESS_DIR) {
+                    script {
+                        def projectName = extractPropertyValue('sonar-scanner.properties', 'sonar.projectName')
+                        def reportFolder = readFile('lastReportFolder.txt').trim()
+                        def src = "./${reportFolder}"
+                        def dest = "${REPORTS_DIR}/${projectName}/${reportFolder}"
+
+                        echo "Copying reports from ${src} to ${dest}"
+                        sh """
+                            mkdir -p ${dest}
+                            cd ${src}
+                            cp -r * ${dest}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Second: Clean Temporary Directory') {
+            steps {
+                cleanCypressTempDir()
+            }
+        }
+        
     }
 
     post {
         success {
-            echo 'Tests ran successfully. Report has been generated.'
+            echo 'Tests executed successfully. Cypress report is available.'
         }
         failure {
-            echo 'Tests failed. Please review the console output and the generated report.'
+            echo 'Tests failed. Please check the execution logs and generated report.'
         }
         always {
-            echo 'Pipeline execution completed.'
+            echo 'Pipeline execution finished.'
         }
     }
 }
