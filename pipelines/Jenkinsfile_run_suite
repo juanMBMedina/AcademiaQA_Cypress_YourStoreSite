@@ -69,7 +69,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    build job: 'GetRepository', parameters: [
+                    build job: 'get-repository', parameters: [
                         string(name: 'PROJECT_NAME', value: params.PROJECT_NAME),
                         string(name: 'REPO_URL', value: params.REPO_URL),
                         string(name: 'CLONE_DIR', value: BASE_DIR),
@@ -114,11 +114,9 @@ pipeline {
             steps {
                 dir(CYPRESS_DIR) {
                     script {
-                        def projectName = extractPropertyValue('sonar-scanner.properties', 'sonar.projectName')
                         def reportFolder = readFile('lastReportFolder.txt').trim()
                         def src = "./${reportFolder}"
-                        def dest = "${REPORTS_DIR}/${projectName}/${reportFolder}"
-
+                        def dest = "${REPORTS_DIR}/${params.PROJECT_NAME}/${reportFolder}"
                         echo "Copying reports from ${src} to ${dest}"
                         sh """
                             mkdir -p ${dest}
