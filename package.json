@@ -13,6 +13,7 @@
     "test-suite": "./run-suite.sh"
   },
   "dependencies": {
-    "@faker-js/faker": "^9.6.0"
+    "@faker-js/faker": "^9.6.0",
+    "moment": "^2.29.4"
   }
 }
