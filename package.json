@@ -10,8 +10,7 @@
   "scripts": {
     "clean-file": "rm -rf cypress/screenshots/* cypress/videos/* cypress/reports/*",
     "gui-testing": "npx cypress open",
-    "run-suite": "bash -c 'SUITE_DIR=\"cypress/reports/${SUITE}-$(date +%d%m%Y_%H%M%S)\" && mkdir -p $SUITE_DIR && npx cypress run --spec \"cypress/e2e/${SUITE}.cy.js\" --browser ${BROWSER} --reporter mochawesome --reporter-options reportDir=$SUITE_DIR,overwrite=true,html=true,json=true'",
-    "run-all": "bash -c 'ALL_DIR=\"cypress/reports/allTests-$(date +%d%m%Y_%H%M%S)\" && mkdir -p $ALL_DIR && npx cypress run --browser ${BROWSER} --reporter mochawesome --reporter-options reportDir=$ALL_DIR,overwrite=true,html=true,json=true'"
+    "test-suite": "./run-suite.sh"
   },
   "dependencies": {
     "@faker-js/faker": "^9.6.0"
