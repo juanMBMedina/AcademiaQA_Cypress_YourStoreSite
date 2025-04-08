@@ -1,4 +1,12 @@
 const { defineConfig } = require("cypress");
+const moment = require("moment");
+const fs = require("fs");
+
+const suiteName = process.env.SUITE || 'default';
+const timestamp = moment().format('DDMMYYYY_HHmmss');
+const reportFolder = `cypress/reports/${suiteName}-${timestamp}`;
+
+fs.writeFileSync('lastReportFolder.txt', reportFolder);
 
 module.exports = defineConfig({
   e2e: {
@@ -9,7 +17,6 @@ module.exports = defineConfig({
       // Implementación de eventos de Cypress
       on("task", {
         reportTo({ testCaseId, status }) {
-         
           return null;
         },
       });
@@ -53,6 +60,7 @@ module.exports = defineConfig({
     // Configuración de Reportes
     reporter: "mochawesome",
     reporterOptions: {
+      reportDir: reportFolder,
       overwrite: false,
       html: true,
       json: true,
