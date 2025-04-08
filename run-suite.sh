@@ -8,6 +8,11 @@ if [ -z "$SUITE" ] || [ -z "$BROWSER" ]; then
   exit 1
 fi
 
-npx cypress run \
-  --spec "cypress/e2e/${SUITE}.cy.js" \
-  --browser "$BROWSER" \
+if [ "$SUITE" == "AllSuites" ]; then
+  npx cypress run \
+    --browser "$BROWSER"
+else
+  npx cypress run \
+    --spec "cypress/e2e/${SUITE}.cy.js" \
+    --browser "$BROWSER"
+fi
