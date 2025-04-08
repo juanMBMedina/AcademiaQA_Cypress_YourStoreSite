@@ -39,7 +39,7 @@ pipeline {
     parameters {
         choice(
             name: 'SUITE',
-            choices: ['AllSuites', 'addingToCartSuite', 'loginUserSuite', 'registerUserSuite'],
+            choices: ['login-user', 'register-user', 'add-to-cart', 'regresion-users', 'all-suites'],
             description: 'Select the test suite to run'
         )
         choice(
