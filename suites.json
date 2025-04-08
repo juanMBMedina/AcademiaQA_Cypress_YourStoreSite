@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "login-user": [
     "cypress/e2e/loginUserSuite.cy.js"
   ],
@@ -13,4 +14,20 @@
     "cypress/e2e/registerUserSuite.cy.js"
   ],
   "all-suites": []
+=======
+  "all suites": [],
+  "regresion users": [
+    "cypress/e2e/loginUserSuite.cy.js",
+    "cypress/e2e/registerUserSuite.cy.js"
+  ],
+  "login user": [
+    "cypress/e2e/loginUserSuite.cy.js"
+  ],
+  "register user": [
+    "cypress/e2e/registerUserSuite.cy.js"
+  ],
+  "add to cart": [
+    "cypress/e2e/addingToCartSuite.cy.js"
+  ]
+>>>>>>> a95f109185b6d86a195be7854a32b2039cc9461b
 }
