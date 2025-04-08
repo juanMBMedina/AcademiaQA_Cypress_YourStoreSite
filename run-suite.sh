@@ -8,8 +8,6 @@ if [ -z "$SUITE" ] || [ -z "$BROWSER" ]; then
   exit 1
 fi
 
-mkdir -p "$SUITE_DIR"
-
 npx cypress run \
   --spec "cypress/e2e/${SUITE}.cy.js" \
   --browser "$BROWSER" \
