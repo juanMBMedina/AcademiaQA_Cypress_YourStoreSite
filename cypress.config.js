@@ -1,7 +1,4 @@
 const { defineConfig } = require("cypress");
-const moment = require('moment');
-const suiteName = process.env.SUITE || 'default';
-const timestamp = moment().format('DDMMYYYY_HHmmss');
 
 module.exports = defineConfig({
   e2e: {
@@ -56,7 +53,6 @@ module.exports = defineConfig({
     // Configuración de Reportes
     reporter: "mochawesome",
     reporterOptions: {
-      reportDir: `cypress/reports/${suiteName}-${timestamp}`,
       overwrite: false,
       html: true,
       json: true,
