@@ -114,15 +114,28 @@ pipeline {
             steps {
                 dir(CYPRESS_DIR) {
                     script {
-                        def reportFolder = readFile('lastReportFolder.txt').trim()
-                        def src = "./${reportFolder}"
-                        def dest = "${REPORTS_DIR}/${params.PROJECT_NAME}/${reportFolder}"
+                        env.REPORT_FOLDER = readFile('lastReportFolder.txt').trim()
+                        def src = "./${env.REPORT_FOLDER}"
+                        def dest = "${BASE_DIR}/${params.PROJECT_NAME}/${env.REPORT_FOLDER}"
                         echo "Copying reports from ${src} to ${dest}"
                         sh """
                             mkdir -p ${dest}
                             cd ${src}
                             cp -r * ${dest}
                         """
+                    }
+                }
+                dir("${BASE_DIR}/${PROJECT_NAME}"){
+                    script{
+                        publishHTML([
+                            allowMissing: true,
+                            alwaysLinkToLastBuild: true,
+                            keepAll: false,
+                            reportDir: "./${env.REPORT_FOLDER}",
+                            reportFiles: 'mochawesome.html',
+                            reportName: "${params.PROJECT_NAME}-Cypress-Report",
+                            useWrapperFileDirectly: true
+                        ])
                     }
                 }
             }
